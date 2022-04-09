@@ -3,7 +3,9 @@ module github.com/axllent/golp
 go 1.18
 
 require (
+	github.com/axllent/semver v0.0.1
 	github.com/evanw/esbuild v0.14.34
+	github.com/goreleaser/fileglob v1.3.0
 	github.com/radovskyb/watcher v1.0.7
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/cobra v1.4.0
@@ -13,7 +15,6 @@ require (
 
 require (
 	github.com/gobwas/glob v0.2.3 // indirect
-	github.com/goreleaser/fileglob v1.3.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect

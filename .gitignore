@@ -1,8 +1,8 @@
 *.bak
 *.old
-*.yaml
-*.yml
+/*.yaml
+/*.yml
 *.json
-/golp
+/golp*
 /htdocs
 /node_modules
