@@ -36,5 +36,5 @@ jobs:
         overwrite: true
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
-        pre_command: apt update && apt install -y libsass-dev && CGO_ENABLED=1
+        pre_command: apt update && apt install -y libsass-dev && export CGO_ENABLED=1
         ldflags: -s -w -X "github.com/axllent/golp/cmd.Version=${{ env.APP_VERSION }}" -linkmode external -extldflags -static
