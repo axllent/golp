@@ -32,6 +32,9 @@ var versionCmd = &cobra.Command{
 			return updateApp()
 		}
 
+		// Allow pre-releases
+		updater.AllowPrereleases = true
+
 		fmt.Printf("Version: %s\n", Version)
 		latest, _, _, err := updater.GithubLatest(Repo, RepoBinaryName)
 		if err == nil && updater.GreaterThan(latest, Version) {
