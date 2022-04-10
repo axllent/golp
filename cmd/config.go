@@ -32,37 +32,27 @@ styles:
 # JavaScript files
 scripts:
   - src:
-    - node_modules/@popperjs/core/dist/umd/popper.min.js
-    - node_modules/bootstrap/dist/js/bootstrap.min.js
-    - node_modules/axios/dist/axios.min.js
-    - node_modules/@dashboardcode/bsmultiselect/dist/js/BsMultiSelect.min.js
-    - node_modules/vuedraggable/dist/vuedraggable.umd.min.js
-    - node_modules/sortablejs/Sortable.min.js
-    - node_modules/vue/dist/vue.global.prod.js
-    - themes/site/src/js/**.js
-  dist: themes/site/dist/js
+      - node_modules/@popperjs/core/dist/umd/popper.min.js
+      - node_modules/bootstrap/dist/js/bootstrap.min.js
+      - node_modules/axios/dist/axios.min.js
+      - node_modules/@dashboardcode/bsmultiselect/dist/js/BsMultiSelect.min.js
+      - node_modules/vuedraggable/dist/vuedraggable.umd.min.js
+      - node_modules/sortablejs/Sortable.min.js
+      - node_modules/vue/dist/vue.global.prod.js
+      - themes/site/src/js/**.js
+    dist: themes/site/dist/js
 
 # All other files
 copy:
   - src:
-    - themes/site/src/images/**
-  dist: themes/site/dist/images
+      - themes/site/src/images/**
+    dist: themes/site/dist/images
   - src: 
-    - themes/site/src/fonts/**
-  dist: themes/site/dist/fonts/`)
+      - themes/site/src/fonts/**
+    dist: themes/site/dist/fonts/`)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(configCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// configCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// configCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
