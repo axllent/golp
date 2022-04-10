@@ -8,7 +8,7 @@ Golp is not a Gulp drop-in replacement, but aims to solve many of the same probl
 
 
 ## Usage
-```shell
+```
 Usage:
   golp [command]
 
