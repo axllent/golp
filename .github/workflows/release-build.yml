@@ -29,6 +29,7 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: golp_linux_${{ matrix.goarch }}.tar.gz
         asset_name: golp_linux_${{ matrix.goarch }}.tar.gz
+        overwrite: true
         tag: ${{ github.ref }}
 
   darwin:
@@ -56,6 +57,7 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: golp_darwin_${{ matrix.goarch }}.tar.gz
         asset_name: golp_darwin_${{ matrix.goarch }}.tar.gz
+        overwrite: true
         tag: ${{ github.ref }}
 
   windows:
@@ -88,4 +90,5 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: golp_windows_${{ matrix.goarch }}.zip
         asset_name: golp_windows_${{ matrix.goarch }}.zip
+        overwrite: true
         tag: ${{ github.ref }}
