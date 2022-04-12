@@ -116,6 +116,8 @@ func (p ProcessStruct) processScripts() error {
 			options.MinifyWhitespace = true
 			options.MinifyIdentifiers = true
 			options.MinifySyntax = true
+		} else {
+			options.Sourcemap = api.SourceMapLinked
 		}
 
 		result := api.Build(options)
