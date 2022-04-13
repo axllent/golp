@@ -38,7 +38,7 @@ debug your CSS. Run with '-m' to disable this and minify the output.`,
 			}
 		}
 
-		app.Log().Infof("build compiled in %v", sw.Elapsed())
+		app.Log().Infof("completed in %v", sw.Elapsed())
 	},
 }
 
