@@ -18,7 +18,10 @@ var rootCmd = &cobra.Command{
 "dist" directories. It also handles dynamic copying of static assets.
 
 Golp is not a Gulp drop-in replacement, but aims to solve many of the same
-problems that Gulp does. It is fast, simple, and runs from a single binary.`,
+problems that Gulp does. It is fast, simple, and runs from a single binary.
+
+Documentation:
+  https://github.com/axllent/golp`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },
