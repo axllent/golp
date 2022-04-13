@@ -25,6 +25,14 @@ Flags:
   -v, --verbose         verbose logging
 ```
 
+## Installation
+
+There are some pre-build binaries available for Linux and MacOS available in the releases.
+
+Golp relies on CGO for the [golibsass](github.com/bep/golibsass) compilation, making cross-platform / multi-arch pre-built binaries very challenging.
+
+If your system has go, gcc & g++ installed, you can install it easily from source with: `go install github.com/axllent/golp@latest`
+
 
 ## Config file
 
