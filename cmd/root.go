@@ -34,7 +34,7 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&app.Conf.ConfigFile, "config", "./golp.yaml", "config file")
+	rootCmd.PersistentFlags().StringVarP(&app.Conf.ConfigFile, "config", "c", "./golp.yaml", "config file")
 	rootCmd.PersistentFlags().BoolVarP(&app.VerboseLogging, "verbose", "v", false, "verbose logging")
 
 	rootCmd.CompletionOptions.HiddenDefaultCmd = true
