@@ -20,7 +20,7 @@ jobs:
       - name: Build in qemu
         run: |
           docker run --rm -v ${{ steps.pwd.outputs.srcdir }}:/src -w /src --entrypoint /bin/sh --platform linux/${{ matrix.arch }} golang:alpine -c "apk add --no-cache gcc g++ && \
-          go build -buildvcs=false -ldflags '-s -w -extldflags -static -X github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}"
+          go build -buildvcs=false -ldflags '-s -w -extldflags -static -X github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}'"
           ./golp -h
       - name: Create archive
         run: |
