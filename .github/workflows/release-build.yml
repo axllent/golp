@@ -4,33 +4,63 @@ on:
       - '*'
 name: Build & release
 jobs:
-  linux:
+  # building these in alpine seems to be far more reliable for cross platform
+  linux-builds:
     strategy:
       matrix:
-        go-version: [1.18.x]
-        os: [ubuntu-latest]
-        goarch: ["386", amd64, arm64]
-    runs-on: ${{ matrix.os }}
+        arch: ["386", amd64, arm64]
+    name: linux builds
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-go@v3
-      with:
-        go-version: ${{ matrix.go-version }}
-    - name: Get tag
-      id: tag
-      uses: dawidd6/action-get-tag@v1
-    - uses: actions/checkout@v3
-    - run: go build -ldflags '-s -w -X "github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}"'
-      env:
-        CGO_ENABLED: 1
-    - run: tar -zcvf golp_linux_${{ matrix.goarch }}.tar.gz golp README.md LICENSE
-    - name: Upload binaries to release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: golp_linux_${{ matrix.goarch }}.tar.gz
-        asset_name: golp_linux_${{ matrix.goarch }}.tar.gz
-        overwrite: true
-        tag: ${{ github.ref }}
+      - uses: actions/checkout@v2.1.0
+      - name: Set src directory
+        run: echo "::set-output name=srcdir::$(pwd)"
+        id: pwd
+      - uses: docker/setup-qemu-action@v1
+      - name: Build in qemu
+        run: |
+          docker run --rm -v ${{ steps.pwd.outputs.srcdir }}:/src -w /src --entrypoint /bin/sh --platform linux/${{ matrix.arch }} golang:alpine -c "apk add --no-cache gcc g++ && \
+          go build -buildvcs=false -ldflags '-s -w -extldflags -static -X github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}"
+          ./golp -h
+      - name: Create archive
+        run: |
+          tar -zcvf golp_linux_${{ matrix.arch }}.tar.gz golp README.md LICENSE
+      - name: Upload archive to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: golp_linux_${{ matrix.arch }}.tar.gz
+          asset_name: golp_linux_${{ matrix.arch }}.tar.gz
+          overwrite: true
+          tag: ${{ github.ref }}
+
+  # linux:
+  #   strategy:
+  #     matrix:
+  #       go-version: [1.18.x]
+  #       os: [ubuntu-latest]
+  #       goarch: ["386", amd64, arm64]
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #   - uses: actions/setup-go@v3
+  #     with:
+  #       go-version: ${{ matrix.go-version }}
+  #   - name: Get tag
+  #     id: tag
+  #     uses: dawidd6/action-get-tag@v1
+  #   - uses: actions/checkout@v3
+  #   - run: go build -ldflags '-s -w -X "github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}"'
+  #     env:
+  #       CGO_ENABLED: 1
+  #   - run: tar -zcvf golp_linux_${{ matrix.goarch }}.tar.gz golp README.md LICENSE
+  #   - name: Upload binaries to release
+  #     uses: svenstaro/upload-release-action@v2
+  #     with:
+  #       repo_token: ${{ secrets.GITHUB_TOKEN }}
+  #       file: golp_linux_${{ matrix.goarch }}.tar.gz
+  #       asset_name: golp_linux_${{ matrix.goarch }}.tar.gz
+  #       overwrite: true
+  #       tag: ${{ github.ref }}
 
   darwin:
     strategy:
