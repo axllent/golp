@@ -36,7 +36,7 @@ var versionCmd = &cobra.Command{
 			return updateApp()
 		}
 
-		fmt.Printf("Version %s compiled with %s on %s/%s\n",
+		fmt.Printf("golp %s compiled with %s on %s/%s\n",
 			Version, runtime.Version(), runtime.GOOS, runtime.GOARCH)
 
 		latest, _, _, err := updater.GithubLatest(Repo, RepoBinaryName)
