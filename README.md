@@ -6,6 +6,8 @@ Golp automates build workflows, compiling SASS and JavaScript into configurable 
 
 Golp is not a Gulp drop-in replacement, but aims to solve many of the same problems that Gulp does. It is fast, simple, and runs from a single binary.
 
+Internally it uses [esbuild](https://github.com/evanw/esbuild) & [golibsass](https://github.com/bep/golibsass) to compile JavaScript & SASS.
+
 
 ## Usage
 ```
@@ -24,6 +26,14 @@ Flags:
   -h, --help            help for golp
   -v, --verbose         verbose logging
 ```
+
+## Installation
+
+There are some pre-build binaries available for Linux and MacOS available in the releases.
+
+Golp relies on CGO for the [golibsass](https://github.com/bep/golibsass) compilation, making cross-platform / multi-arch pre-built binaries very challenging.
+
+If your system has go, gcc & g++ installed, you can install it easily from source with: `go install github.com/axllent/golp@latest`
 
 
 ## Config file
