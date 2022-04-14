@@ -16,10 +16,14 @@ jobs:
       - name: Set src directory
         run: echo "::set-output name=srcdir::$(pwd)"
         id: pwd
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
       - uses: docker/setup-qemu-action@v1
       - name: Build in qemu
         run: |
-          docker run --rm -v ${{ steps.pwd.outputs.srcdir }}:/src -w /src --entrypoint /bin/sh --platform linux/${{ matrix.arch }} golang:alpine -c "apk add --no-cache gcc g++ && \
+          docker run --rm -v ${{ steps.pwd.outputs.srcdir }}:/src -w /src --entrypoint /bin/sh --platform linux/${{ matrix.arch }} golang:alpine -c \
+          "apk add --no-cache gcc g++ && \
           go build -buildvcs=false -ldflags '-s -w -extldflags -static -X github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}'"
           ./golp -h
       - name: Create archive
