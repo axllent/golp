@@ -127,7 +127,13 @@ func (p ProcessStruct) Files() []FileMap {
 						}
 					}
 
-					fm = append(fm, FileMap{InFile: f, OutPath: subDir})
+					fm = append(
+						fm,
+						FileMap{
+							InFile:  filepath.ToSlash(f),
+							OutPath: filepath.ToSlash(subDir),
+						},
+					)
 
 					exists[f] = true
 				}
