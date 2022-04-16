@@ -82,8 +82,6 @@ jobs:
       uses: dawidd6/action-get-tag@v1
     - uses: actions/checkout@v3
     - run: go build -ldflags '-s -w -extldflags -static -X "github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}"'
-      env:
-        CGO_ENABLED: 1
     - run: tar -zcvf golp_darwin_${{ matrix.goarch }}.tar.gz golp README.md LICENSE
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
