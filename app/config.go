@@ -101,7 +101,7 @@ func (p ProcessStruct) Files() []FileMap {
 	exists := map[string]bool{}
 
 	for _, pth := range p.Src {
-		fullpth := filepath.Join(Conf.WorkingDir, pth)
+		fullpth := filepath.ToSlash(filepath.Join(Conf.WorkingDir, pth))
 		matches, err := fg.Glob(fullpth, fg.MaybeRootFS)
 		if err == nil {
 			subDir := ""
@@ -134,6 +134,8 @@ func (p ProcessStruct) Files() []FileMap {
 							OutPath: filepath.ToSlash(subDir),
 						},
 					)
+
+					Log().Debugf("File matching yaml: %s", f)
 
 					exists[f] = true
 				}
