@@ -8,6 +8,13 @@ Golp is not a Gulp drop-in replacement, but aims to solve many of the same probl
 
 Internally it uses [esbuild](https://github.com/evanw/esbuild) & [golibsass](https://github.com/bep/golibsass) to compile JavaScript & SASS.
 
+## Features
+
+- Single binary for all build tasks with simple yaml file configuration
+- Ability to "watch" configured files for changes (ie: building during development)
+- SourceMaps for debugging SASS & JS (disabled with minification)
+- Process SASS ([golibsass](https://github.com/bep/golibsass)) & JavaScript ([esbuild](https://github.com/evanw/esbuild))
+
 
 ## Usage
 ```
