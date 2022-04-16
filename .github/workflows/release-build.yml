@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         arch: ["386", amd64, arm64]
-    name: linux builds
+    name: linux
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.1.0
