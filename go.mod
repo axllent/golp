@@ -1,6 +1,6 @@
 module github.com/axllent/golp
 
-go 1.18
+go 1.17
 
 require (
 	github.com/axllent/semver v0.0.1
