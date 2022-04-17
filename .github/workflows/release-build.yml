@@ -19,7 +19,7 @@ jobs:
       - name: Get tag
         id: tag
         uses: dawidd6/action-get-tag@v1
-      - uses: actions/setup-git-chglog@v1
+      - uses: craicoverflow/install-git-chglog@v1
       - name: git-chglog
         id: chglog
         run: git-chglog -t .chglog/RELEASE.tpl.md ${{ steps.tag.outputs.tag }}
