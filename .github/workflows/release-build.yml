@@ -19,9 +19,9 @@ jobs:
       - name: Get tag
         id: tag
         uses: dawidd6/action-get-tag@v1
+      - uses: actions/install-git-chglog@v1
       - name: git-chglog
         id: chglog
-        uses: actions/install-git-chglog@v1
         run: git-chglog -t .chglog/RELEASE.tpl.md ${{ steps.tag.outputs.tag }}
       - uses: docker/setup-qemu-action@v1
       - name: Build in qemu
