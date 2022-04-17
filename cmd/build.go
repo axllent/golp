@@ -16,8 +16,13 @@ var buildCmd = &cobra.Command{
 
 By default SASS & JS files will include SourceMaps, which are used by browsers
 to debug your code. Run with '-m' to disable this and minify the output.`,
-	Args: cobra.ExactArgs(0),
+	Args:    cobra.ExactArgs(0),
+	Aliases: []string{"package"},
 	Run: func(cmd *cobra.Command, args []string) {
+
+		if cmd.CalledAs() == "package" {
+			app.Minify = true
+		}
 
 		if err := app.ParseConfig(); err != nil {
 			app.Log().Error(err.Error())
@@ -44,6 +49,5 @@ to debug your code. Run with '-m' to disable this and minify the output.`,
 
 func init() {
 	rootCmd.AddCommand(buildCmd)
-
 	buildCmd.Flags().BoolVarP(&app.Minify, "minify", "m", false, "minify dist styles & scripts")
 }
