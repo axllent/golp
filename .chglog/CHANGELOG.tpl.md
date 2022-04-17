@@ -15,7 +15,7 @@
 
 {{ range .Versions }} 
 {{- if .CommitGroups -}}
-## {{ if .Tag.Previous }}[{{ .Tag.Name }}]{{ else }}{{ .Tag.Name }}{{ end }} - {{ datetime "2006-01-02" .Tag.Date }}
+## {{ .Tag.Name }} - {{ datetime "2006-01-02" .Tag.Date }}
 
 {{ range .CommitGroups -}}
 ### {{ .Title }}
@@ -38,19 +38,6 @@
 {{ range .Notes }}
 {{ .Body }}
 {{ end }}
-{{ end -}}
-{{ end -}}
-{{ end -}}
-
-{{- if .Versions }}
-{{- if .Unreleased.CommitGroups -}}
-[Unreleased]: {{ .Info.RepositoryURL }}/compare/{{ $latest := index .Versions 0 }}{{ $latest.Tag.Name }}...HEAD
-{{ end -}}
-{{ range .Versions -}}
-{{- if .CommitGroups -}}
-{{ if .Tag.Previous -}}
-[{{ .Tag.Name }}]: {{ $.Info.RepositoryURL }}/compare/{{ .Tag.Previous.Name }}...{{ .Tag.Name }}
-{{ end -}}
 {{ end -}}
 {{ end -}}
 {{ end -}}
