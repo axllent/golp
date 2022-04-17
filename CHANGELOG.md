@@ -1,7 +1,8 @@
-## [Unreleased]
+## [0.1.16] - 2022-04-17
 
 ### Feature
 - Add CHANGELOG
+
 
 ## [0.1.15] - 2022-04-17
 
@@ -35,7 +36,7 @@
 - don't rebuild Windows binaries
 
 
-[Unreleased]: https://github.com/axllent/golp/compare/0.1.15...HEAD
+[0.1.16]: https://github.com/axllent/golp/compare/0.1.15...0.1.16
 [0.1.15]: https://github.com/axllent/golp/compare/0.1.14...0.1.15
 [0.1.12]: https://github.com/axllent/golp/compare/0.1.11...0.1.12
 [0.1.10]: https://github.com/axllent/golp/compare/0.1.9...0.1.10
