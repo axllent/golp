@@ -93,9 +93,9 @@ jobs:
     - run: ./golp version
     - run: tar -zcvf golp_darwin_${{ matrix.goarch }}.tar.gz golp README.md LICENSE
     - uses: craicoverflow/install-git-chglog@v1
-      - name: git-chglog
-        id: chglog
-        run: git-chglog -t .chglog/RELEASE.tpl.md ${{ steps.tag.outputs.tag }}
+    - name: git-chglog
+      id: chglog
+      run: git-chglog -t .chglog/RELEASE.tpl.md ${{ steps.tag.outputs.tag }}
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:

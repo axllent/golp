@@ -1,7 +1,7 @@
 ## 0.1.17 - 2022-04-17
 
 ### Feature
-- Add `golp package` alias to impliy build minification
+- Add `golp package` alias to imply build minification
 - Add changelog to release info
 
 
