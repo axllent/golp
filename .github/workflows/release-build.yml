@@ -19,10 +19,6 @@ jobs:
       - name: Get tag
         id: tag
         uses: dawidd6/action-get-tag@v1
-      - uses: craicoverflow/install-git-chglog@v1
-      - name: git-chglog
-        id: chglog
-        run: git-chglog -t .chglog/RELEASE.tpl.md ${{ steps.tag.outputs.tag }}
       - uses: docker/setup-qemu-action@v1
       - name: Build in qemu
         run: |
@@ -34,6 +30,10 @@ jobs:
       - name: Create archive
         run: |
           tar -zcvf golp_linux_${{ matrix.arch }}.tar.gz golp README.md LICENSE
+      - uses: craicoverflow/install-git-chglog@v1
+      - name: git-chglog
+        id: chglog
+        run: git-chglog -t .chglog/RELEASE.tpl.md ${{ steps.tag.outputs.tag }}
       - name: Upload archive to release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -92,6 +92,10 @@ jobs:
         CGO_ENABLED: 1
     - run: ./golp version
     - run: tar -zcvf golp_darwin_${{ matrix.goarch }}.tar.gz golp README.md LICENSE
+    - uses: craicoverflow/install-git-chglog@v1
+      - name: git-chglog
+        id: chglog
+        run: git-chglog -t .chglog/RELEASE.tpl.md ${{ steps.tag.outputs.tag }}
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
@@ -100,6 +104,7 @@ jobs:
         asset_name: golp_darwin_${{ matrix.goarch }}.tar.gz
         overwrite: true
         tag: ${{ github.ref }}
+        body: ${{ steps.tag.outputs.chglog }}
 
   windows:
     strategy:
