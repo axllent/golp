@@ -1,3 +1,9 @@
+## 0.1.19 - 2022-04-18
+
+### Config
+- Dist file/folder deletion based on config file only
+
+
 ## 0.1.17 - 2022-04-17
 
 ### Feature
