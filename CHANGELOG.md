@@ -1,3 +1,12 @@
+## 0.1.20 - 2022-04-18
+
+### Feature
+- Display compiled module versions
+
+### Libs
+- Update modules
+
+
 ## 0.1.19 - 2022-04-18
 
 ### Config
