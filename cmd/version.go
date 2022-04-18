@@ -1,9 +1,11 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"runtime"
+	"runtime/debug"
 
 	"github.com/axllent/golp/updater"
 	"github.com/spf13/cobra"
@@ -27,10 +29,26 @@ var versionCmd = &cobra.Command{
 	Long:  `Displays the current version & update information.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 
-		update, _ := cmd.Flags().GetBool("update")
+		modules, _ := cmd.Flags().GetBool("modules")
 
-		// Allow pre-releases
-		updater.AllowPrereleases = true
+		if modules {
+			bi, ok := debug.ReadBuildInfo()
+			if !ok {
+				return errors.New("Failed to read build info")
+			}
+
+			fmt.Printf("%s %s is compiled with the following:\n\n", os.Args[0], Version)
+
+			for _, dep := range bi.Deps {
+				if dep.Path == "github.com/bep/golibsass" || dep.Path == "github.com/evanw/esbuild" || dep.Path == "github.com/goreleaser/fileglob" {
+					fmt.Printf("%-30s %s\n", dep.Path, dep.Version)
+				}
+			}
+
+			return nil
+		}
+
+		update, _ := cmd.Flags().GetBool("update")
 
 		if update {
 			return updateApp()
@@ -42,7 +60,7 @@ var versionCmd = &cobra.Command{
 		latest, _, _, err := updater.GithubLatest(Repo, RepoBinaryName)
 		if err == nil && updater.GreaterThan(latest, Version) {
 			fmt.Printf(
-				"Update available: %s\nRun `%s version -u` to update (requires read/write access to install directory).\n",
+				"\nUpdate available: %s\nRun `%s version -u` to update (requires read/write access to install directory).\n",
 				latest,
 				os.Args[0],
 			)
@@ -57,6 +75,9 @@ func init() {
 
 	versionCmd.Flags().
 		BoolP("update", "u", false, "update to latest version")
+
+	versionCmd.Flags().
+		BoolP("modules", "m", false, "display module versions")
 }
 
 func updateApp() error {
@@ -64,6 +85,7 @@ func updateApp() error {
 	if err != nil {
 		return err
 	}
+
 	fmt.Printf("Updated %s to version %s\n", os.Args[0], rel)
 	return nil
 }
