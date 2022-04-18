@@ -17,7 +17,7 @@ This file is typically saved in your project root directory as golp.yaml
 All styles, scripts, and assets are relative to this file.`,
 	Args: cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(`# optional - will be deleted on build / clean
+		fmt.Println(`# optional - list of folders or files to be deleted on every build / clean
 clean: 
   - themes/site/dist
 

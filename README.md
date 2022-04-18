@@ -19,9 +19,9 @@ Internally it uses [esbuild](https://github.com/evanw/esbuild) for SASS/CSS, and
 
 ## Motivation
 
-Having used [Gulp](https://gulpjs.com/) for several years to build and package website assets (compiling SASS, JavaScript and copy some src assets such as images and fonts to a dist folder), I wanted to reduce the build overheads and reliance on node packages. The3 development of Gulp has practically stopped, which has lead to much frustration due to outdated package requirements, many of which have known CVE issues.
+Having used [Gulp](https://gulpjs.com/) for several years to build and package website assets (compiling SASS, JavaScript and copy some src assets such as images and fonts to a dist folder), I wanted to reduce the build build overheads and reliance on node packages. The development of Gulp has practically stopped, which has lead to much frustration due to outdated package requirements, many of which have known CVE issues.
 
-Using just a single binary (Golp), I was able to reduce the build/compile time by ~50% (excluding the additional `npm install` time), as well as reduce the number of node packages (required for gulp) by about 1,250 packages (9,062 files).
+Using just a single binary (Golp), I was able to reduce the build/compile time by ~50% (not including the additional `npm install` time), as well as drastically reduce the number of node packages (required for gulp) by about 1,250 packages (9,062 files).
 
 
 ## Usage
@@ -45,6 +45,7 @@ Flags:
   -v, --verbose         verbose logging
 ```
 
+
 ### Usage examples
 
 ```
@@ -67,14 +68,14 @@ This will process your files, outputting them to their respective dist directori
 
 There are pre-build binaries available for Linux, Windows and MacOS available in the [releases](https://github.com/axllent/golp/releases/latest).
 
-If your system has go, gcc & g++ installed, you can install it easily from source with: `go install github.com/axllent/golp@latest`
+You can also install it from source: `go install github.com/axllent/golp@latest` (go, gcc & g++ required)
 
 
 ## Configuration
 
 Typically your configuration file will be found in your project root folder, and named `golp.yaml`. An alternative config can be specified using the `-c` flag.
 
-Please note that all `styles`, `scripts` and `copy` src files are relative to your config file.
+Please note that all `styles`, `scripts` and `copy` source files are relative to your config file.
 
 Run `golp config` to view an example config file.
 
@@ -82,27 +83,28 @@ Run `golp config` to view an example config file.
 ### Example config file
 
 ```yaml
-# If directories are specified, they will be deleted each time when golp is run.
-# Note that individual `dist` direectories will be deleted automatically too.
+## Optionally specify directories and/or files to automatically delete on every build, 
+## and on `golp clean`. Files can be matched with wildcards.
 clean: 
-  - themes/site/dist # optional
+  ## optional directories to delete
+  - themes/site/dist
 
-# SASS & CSS files
+## SASS & CSS files
 styles:
   - src:
-      # process all *.scss files in this folder
+      ## process all *.scss files in this folder
       - themes/site/src/sass/*.scss
-      # process all *.css files in this folder and child folders
+      ## process all *.css files in this folder and child folders
       - themes/site/src/sass/**.css 
-      # add a specific file
+      ## add a specific file
       - node_modules/@dashboardcode/bsmultiselect/dist/css/BsMultiSelect.css
-    # output directory for all src files
+    ## output directory for all src files
     dist: themes/site/dist/css/
 
-# JS scripts are processed with esbuild, and can be optionally merged into a single file,
-# and optionally bundled (see https://esbuild.github.io/api/#bundle)
+## JS scripts are processed with esbuild, and can be optionally merged into a single file,
+## and optionally bundled (see https://esbuild.github.io/api/#bundle)
 scripts:
-  # compile and merge these into a single libs.js file
+  ## compile and merge these into a single libs.js file
   - src:
       - node_modules/@popperjs/core/dist/umd/popper.min.js
       - node_modules/bootstrap/dist/js/bootstrap.min.js
@@ -111,21 +113,21 @@ scripts:
       - node_modules/vuedraggable/dist/vuedraggable.umd.min.js
       - node_modules/sortablejs/Sortable.min.js
       - node_modules/vue/dist/vue.global.prod.js
-    # merge all files into a single file (only scripts & styles supported)
+    ## merge all files into a single file (only scripts & styles supported)
     dist: themes/site/dist/js/libs.js 
-    # optional name for the console output
+    ## optional name for the console output
     name: libs
-    # optionally bundle your JavaScript https://esbuild.github.io/api/#bundle 
+    ## optionally bundle your JavaScript https://esbuild.github.io/api/#bundle 
     # bundle: true
 
-  # compile all *.js files in this folder and child folders
+  ## compile all *.js files in this folder and child folders
   - src:
       - themes/site/src/js/**.js
     dist: themes/site/dist/js
     name: site scripts
 
-# Copy does not support merging or compressing of files, but will simply
-# copy all matching files in the src directory to the dist directory.
+## Copy does not support merging or compressing of files, but will simply
+## copy all matching files in the src directory to the dist directory.
 copy:
   - src:
       - themes/site/src/images/**

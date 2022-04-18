@@ -15,7 +15,7 @@ var buildCmd = &cobra.Command{
 	Long: `Compile & copy your assets in a single run.
 
 By default SASS & JS files will include SourceMaps, which are used by browsers
-to debug your code. Run with '-m' to disable this and minify the output.`,
+to debug your code. Run with '-m' to disable SourceMaps and minify the output.`,
 	Args:    cobra.ExactArgs(0),
 	Aliases: []string{"package"},
 	Run: func(cmd *cobra.Command, args []string) {
@@ -31,7 +31,7 @@ to debug your code. Run with '-m' to disable this and minify the output.`,
 
 		sw := utils.StartTimer()
 
-		if err := app.DeleteDistDirs(); err != nil {
+		if err := app.Clean(); err != nil {
 			app.Log().Error(err.Error())
 			os.Exit(1)
 		}
