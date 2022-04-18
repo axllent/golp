@@ -23,7 +23,7 @@ func WatchSrcDirs() {
 
 	watcherMap := []watchMap{}
 
-	if err := DeleteDistDirs(); err != nil {
+	if err := Clean(); err != nil {
 		Log().Errorf("Error deleting dist directories: %s", err)
 		os.Exit(1)
 	}

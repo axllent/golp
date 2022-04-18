@@ -83,8 +83,8 @@ Run `golp config` to view an example config file.
 ### Example config file
 
 ```yaml
-## If "clean" directories are specified, they will be deleted each time when golp is run.
-## Note that individual `dist` direectories will be deleted automatically on every run.
+## Optionally specify directories and/or files to automatically delete on every build, 
+## and on `golp clean`. Files can be matched with wildcards.
 clean: 
   ## optional directories to delete
   - themes/site/dist

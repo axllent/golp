@@ -10,16 +10,12 @@ var Conf struct {
 
 // ProcessStruct for config
 type ProcessStruct struct {
-	Type string
-	Name string
-	// Src files
-	Src []string
-	// Dist directory
-	Dist string
-	// DistFile is the combined filename for all matching files if specified (JS/CSS only)
-	DistFile string
-	// JSBundle determines whether the dist JS should be bundled
-	JSBundle bool
+	Type     string   // styles, scripts, copy
+	Name     string   // name of the process
+	Src      []string // source files
+	Dist     string   // dist directory
+	DistFile string   // optional merge filename
+	JSBundle bool     // optional bundle JS files (JS-only)
 }
 
 // YamlConf is the yaml struct
