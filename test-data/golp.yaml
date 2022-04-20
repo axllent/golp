@@ -1,0 +1,20 @@
+clean:
+  - dist
+
+styles:
+  - src:
+      - src/sass/*.scss
+    dist: dist/css
+
+scripts:
+  - src:
+      - node_modules/bootstrap/js/src/*.js
+    dist: dist/js/bootstrap.js
+    name: boostrap.js
+    bundle: true
+
+copy:
+  - src:
+      - src/images/*.png
+      - src/images/**/*.png
+    dist: dist/images

@@ -1,0 +1,4 @@
+# fail test for no valid src
+
+styles:
+  - dist: dist/css

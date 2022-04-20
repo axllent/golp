@@ -34,7 +34,7 @@ Usage:
 
 Available Commands:
   build       Compile & copy your assets (single)
-  clean       Clean (delete) your dist directories
+  clean       Clean (delete) your configured files/directories
   config      View an example config file
   version     Display the current version & update information
   watch       Build & watch src directories for changes

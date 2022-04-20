@@ -11,6 +11,9 @@ var (
 
 	// VerboseLogging - verbose logging
 	VerboseLogging bool
+
+	// TestLogging - turn off for testing
+	testLogging bool
 )
 
 // Log returns the logger instance
@@ -20,6 +23,10 @@ func Log() *logrus.Logger {
 		log.SetLevel(logrus.InfoLevel)
 		if VerboseLogging {
 			log.SetLevel(logrus.DebugLevel)
+		}
+
+		if testLogging {
+			log.SetLevel(logrus.PanicLevel)
 		}
 
 		log.Out = os.Stdout
