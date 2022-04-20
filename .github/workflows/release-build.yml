@@ -104,6 +104,14 @@ jobs:
       with:
         go-version: ${{ matrix.go-version }}
     - uses: actions/checkout@v3
+    - uses: actions/cache@v3
+        with:
+          path: |
+            ~\AppData\Local\go-build
+            ~\go\pkg\mod
+          key: windows_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            windows_${{ matrix.goarch }}-go-
     - name: Get tag
       id: tag
       uses: dawidd6/action-get-tag@v1
