@@ -30,3 +30,7 @@ jobs:
         with:
           package: github.com/axllent/golp/app
           show-passed-tests: true
+      - name: Run Gosec Security Scanner
+        uses: securego/gosec@master
+        with:
+          args: ./...
