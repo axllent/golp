@@ -20,6 +20,7 @@ jobs:
         with:
           path: |
             ${{ steps.pwd.outputs.srcdir }}/.cache/
+            !${{ steps.pwd.outputs.srcdir }}/.cache/pkg/mod/cache
           key: linux_${{ matrix.arch }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             linux_${{ matrix.arch }}-go-
@@ -65,7 +66,7 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: |
-          ~/.cache/go-build
+          ~/Library/Caches/go-build
           ~/go/pkg/mod
         key: darwin_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
         restore-keys: |
