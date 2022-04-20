@@ -21,7 +21,7 @@ Internally it uses [esbuild](https://github.com/evanw/esbuild) for SASS/CSS, and
 
 Having used [Gulp](https://gulpjs.com/) for several years to build and package website assets (compiling SASS, JavaScript and copy some src assets such as images and fonts to a dist folder), I wanted to reduce the build build overheads and reliance on node packages. The development of Gulp has practically stopped, which has lead to much frustration due to outdated package requirements, many of which have known CVE issues.
 
-Using just a single binary (Golp), I was able to reduce the build/compile time by ~50% (not including the additional `npm install` time), as well as drastically reduce the number of node packages (required for gulp) by about 1,250 packages (9,062 files).
+Using just a single binary (Golp), I was able to reduce the build/compile time by ~50% (not even including the additional `npm install` time), as well as drastically reduce the number of node packages (required for gulp) by about 1,250 packages (9,062 files).
 
 
 ## Usage
@@ -66,7 +66,7 @@ This will process your files, outputting them to their respective dist directori
 
 ## Installation
 
-There are pre-build binaries available for Linux, Windows and MacOS available in the [releases](https://github.com/axllent/golp/releases/latest).
+There are pre-built binaries available for Linux, Windows and MacOS available in the [releases](https://github.com/axllent/golp/releases/latest).
 
 You can also install it from source: `go install github.com/axllent/golp@latest` (go, gcc & g++ required)
 
@@ -117,7 +117,7 @@ scripts:
     dist: themes/site/dist/js/libs.js 
     ## optional name for the console output
     name: libs
-    ## optionally bundle your JavaScript https://esbuild.github.io/api/#bundle 
+    ## optionally bundle your JavaScript, @see https://esbuild.github.io/api/#bundle 
     # bundle: true
 
   ## compile all *.js files in this folder and child folders
@@ -126,8 +126,8 @@ scripts:
     dist: themes/site/dist/js
     name: site scripts
 
-## Copy does not support merging or compressing of files, but will simply
-## copy all matching files in the src directory to the dist directory.
+## Copy all matching files from the src directories to the dist directories.
+## This does not support merging or compressing of files do dist should be a directory name.
 copy:
   - src:
       - themes/site/src/images/**
