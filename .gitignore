@@ -2,7 +2,8 @@
 *.old
 /*.yaml
 /*.yml
-*.json
+/*.lock
+/*.json
 /dist
 /golp*
 /htdocs
