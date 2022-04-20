@@ -20,4 +20,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
       - uses: n8maninger/action-golang-test@v1
-        package: github.com/axllent/golp/app
+        with:
+          package: github.com/axllent/golp/app
