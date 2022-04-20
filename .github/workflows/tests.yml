@@ -20,7 +20,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
       - uses: n8maninger/action-golang-test@v1
+        name: Run tests
         with:
           package: github.com/axllent/golp/app
           show-passed-tests: true
-          show-stdout: true
