@@ -18,7 +18,7 @@ func StartTimer() StopWatch {
 	return o
 }
 
-// Elapsed returns the elapsed time
+// Elapsed returns the elapsed time from the StartTimer()
 func (o StopWatch) Elapsed() string {
 	t := time.Since(o.StartTime)
 
