@@ -43,7 +43,7 @@ func Copy(src, dst string) error {
 		return err
 	}
 	/* #nosec G307 */
-	// defer out.Close()
+	defer out.Close()
 
 	_, err = io.Copy(out, in)
 	if err != nil {
