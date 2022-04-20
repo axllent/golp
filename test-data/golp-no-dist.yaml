@@ -1,0 +1,5 @@
+# fail test for no valid dist
+
+styles:
+  - src:
+      - src/sass/*.scss

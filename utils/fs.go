@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 // IsFile returns if a path is a file
@@ -71,4 +72,16 @@ func FileGetContents(inFile string) (string, error) {
 	re := regexp.MustCompile(`(?Ui)/\*#\s+sourceMappingURL.*\*/`)
 
 	return re.ReplaceAllString(string(b), ""), nil
+}
+
+// FileContains us used for testing
+func FileContains(file, text string) (bool, error) {
+	// read the whole file at once
+	b, err := ioutil.ReadFile(file)
+	if err != nil {
+		return false, err
+	}
+	s := string(b)
+	// //check whether s contains substring text
+	return strings.Contains(s, text), nil
 }

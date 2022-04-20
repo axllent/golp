@@ -20,6 +20,7 @@ var (
 // ParseConfig reads a yaml file and returns a Conf struct
 func ParseConfig() error {
 	var yml = yamlConf{}
+	Conf.Process = []ProcessStruct{}
 
 	if !utils.IsFile(Conf.ConfigFile) {
 		return fmt.Errorf("Config %s does not exist", Conf.ConfigFile)
@@ -51,13 +52,23 @@ func ParseConfig() error {
 		if c.Name == "" {
 			c.Name = c.Type
 		}
+
 		c.Src = p.Src
+
+		if p.Dist == "" {
+			return fmt.Errorf("Dist is not set for %s", c.Name)
+		}
+
 		if strings.HasSuffix(p.Dist, ".css") {
 			c.DistFile = filepath.Base(p.Dist)
 			p.Dist = filepath.Dir(p.Dist)
 		}
+
 		c.Dist = filepath.Join(Conf.WorkingDir, p.Dist)
-		Conf.Process = append(Conf.Process, c)
+
+		if len(c.Src) > 0 {
+			Conf.Process = append(Conf.Process, c)
+		}
 	}
 
 	for _, p := range yml.Scripts {
@@ -67,15 +78,24 @@ func ParseConfig() error {
 		if c.Name == "" {
 			c.Name = c.Type
 		}
+
 		c.Src = p.Src
+
+		if p.Dist == "" {
+			return fmt.Errorf("Dist is not set for %s", c.Name)
+		}
+
 		if strings.HasSuffix(p.Dist, ".js") {
 			c.DistFile = filepath.Base(p.Dist)
 			p.Dist = filepath.Dir(p.Dist)
 		}
+
 		c.Dist = filepath.Join(Conf.WorkingDir, p.Dist)
 		c.JSBundle = p.Bundle
 
-		Conf.Process = append(Conf.Process, c)
+		if len(c.Src) > 0 {
+			Conf.Process = append(Conf.Process, c)
+		}
 	}
 
 	for _, p := range yml.Copy {
@@ -85,9 +105,22 @@ func ParseConfig() error {
 		if c.Name == "" {
 			c.Name = c.Type
 		}
+
 		c.Src = p.Src
+
+		if p.Dist == "" {
+			return fmt.Errorf("Dist is not set for %s", c.Name)
+		}
+
 		c.Dist = filepath.Join(Conf.WorkingDir, p.Dist)
-		Conf.Process = append(Conf.Process, c)
+
+		if len(c.Src) > 0 {
+			Conf.Process = append(Conf.Process, c)
+		}
+	}
+
+	if len(Conf.Process) == 0 {
+		return fmt.Errorf("No processes defined")
 	}
 
 	return nil
