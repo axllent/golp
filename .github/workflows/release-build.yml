@@ -63,13 +63,13 @@ jobs:
       uses: dawidd6/action-get-tag@v1
     - uses: actions/checkout@v3
     - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/go-build
-            ~/go/pkg/mod
-          key: darwin_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            darwin_${{ matrix.goarch }}-go-
+      with:
+        path: |
+          ~/.cache/go-build
+          ~/go/pkg/mod
+        key: darwin_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          darwin_${{ matrix.goarch }}-go-
     - run: go build -ldflags '-s -w -X "github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}"'
       env:
         CGO_ENABLED: 1
@@ -105,13 +105,13 @@ jobs:
         go-version: ${{ matrix.go-version }}
     - uses: actions/checkout@v3
     - uses: actions/cache@v3
-        with:
-          path: |
-            ~\AppData\Local\go-build
-            ~\go\pkg\mod
-          key: windows_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            windows_${{ matrix.goarch }}-go-
+      with:
+        path: |
+          ~\AppData\Local\go-build
+          ~\go\pkg\mod
+        key: windows_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          windows_${{ matrix.goarch }}-go-
     - name: Get tag
       id: tag
       uses: dawidd6/action-get-tag@v1
