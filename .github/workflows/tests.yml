@@ -22,3 +22,5 @@ jobs:
       - uses: n8maninger/action-golang-test@v1
         with:
           package: github.com/axllent/golp/app
+          show-passed-tests: true
+          show-stdout: true
