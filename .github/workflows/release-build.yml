@@ -79,7 +79,7 @@ jobs:
       shell: bash
       run: |
         tar -zcvf golp_darwin_${{ matrix.goarch }}.tar.gz golp README.md LICENSE
-        SIZE=$(stat -c %s golp_darwin_${{ matrix.goarch }}.tar.gz)
+        SIZE=$(stat -f%z golp_darwin_${{ matrix.goarch }}.tar.gz)
         if (( $SIZE < 3500000)) ; then
           echo "File is too small, build failed!"
           exit 1
