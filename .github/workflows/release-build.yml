@@ -19,8 +19,7 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: |
-            ${{ steps.pwd.outputs.srcdir }}/.cache/
-            !${{ steps.pwd.outputs.srcdir }}/.cache/pkg/mod/cache
+            ${{ steps.pwd.outputs.srcdir }}/.cache
           key: linux_${{ matrix.arch }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             linux_${{ matrix.arch }}-go-
@@ -32,7 +31,8 @@ jobs:
         run: |
           docker run --rm -v ${{ steps.pwd.outputs.srcdir }}:/src -w /src --entrypoint /bin/sh --platform linux/${{ matrix.arch }} golang:alpine -c \
           "apk add --no-cache gcc g++ && \
-          GOPATH="/src/.cache" go build -buildvcs=false -ldflags '-s -w -extldflags -static -X github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}'"
+          GOPATH="/src/.cache" go build -buildvcs=false -ldflags '-s -w -extldflags -static -X github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}' \
+          && find  -name *.zip -exec chmod 664 {} \;"
       - name: Golp version
         run: ./golp version
       - name: Create archive
@@ -81,7 +81,7 @@ jobs:
         tar -zcvf golp_darwin_${{ matrix.goarch }}.tar.gz golp README.md LICENSE
         SIZE=$(stat -f%z golp_darwin_${{ matrix.goarch }}.tar.gz)
         if (( $SIZE < 3500000)) ; then
-          echo "File is too small, build failed!"
+          echo "File is too small ($SIZE), build failed!"
           exit 1
         fi
     - name: Upload binaries to release
