@@ -13,7 +13,7 @@ import (
 
 var (
 	cssFiles     = []string{"bootstrap.css", "test.css"}
-	jsFiles      = []string{"bootstrap.js"}
+	jsFiles      = []string{"bootstrap.js", "merged.js"}
 	copyFiles    = []string{"placeholder1.png", "placeholder2.png", "subdir/placeholder3.png"}
 	skippedFiles = []string{"subdir/ignore.txt"}
 )
