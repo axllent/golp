@@ -20,6 +20,7 @@ jobs:
         with:
           path: |
             ${{ steps.pwd.outputs.srcdir }}/.cache/
+            !${{ steps.pwd.outputs.srcdir }}/.cache/pkg/mod/cache
           key: linux_${{ matrix.arch }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             linux_${{ matrix.arch }}-go-
@@ -65,7 +66,7 @@ jobs:
     - uses: actions/cache@v3
       with:
         path: |
-          ~/.cache/go-build
+          ~/Library/Caches/go-build
           ~/go/pkg/mod
         key: darwin_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
         restore-keys: |
@@ -78,7 +79,7 @@ jobs:
       shell: bash
       run: |
         tar -zcvf golp_darwin_${{ matrix.goarch }}.tar.gz golp README.md LICENSE
-        SIZE=$(stat -c %s golp_darwin_${{ matrix.goarch }}.tar.gz)
+        SIZE=$(stat -f%z golp_darwin_${{ matrix.goarch }}.tar.gz)
         if (( $SIZE < 3500000)) ; then
           echo "File is too small, build failed!"
           exit 1
