@@ -32,7 +32,7 @@ jobs:
           docker run --rm -v ${{ steps.pwd.outputs.srcdir }}:/src -w /src --entrypoint /bin/sh --platform linux/${{ matrix.arch }} golang:alpine -c \
           "apk add --no-cache gcc g++ && \
           GOPATH="/src/.cache" go build -buildvcs=false -ldflags '-s -w -extldflags -static -X github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}' \
-          && find  -name *.zip -exec chmod 664 {} \;"
+          && find /src/.cache -name *.zip -exec chmod 664 {} \;"
       - name: Golp version
         run: ./golp version
       - name: Create archive
