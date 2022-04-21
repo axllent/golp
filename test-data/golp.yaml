@@ -1,11 +1,14 @@
+# clean test
 clean:
   - dist
 
+# sass test
 styles:
   - src:
       - src/sass/*.scss
     dist: dist/css
 
+# bundle test
 scripts:
   - src:
       - node_modules/bootstrap/js/src/*.js
@@ -13,8 +16,13 @@ scripts:
     name: boostrap.js
     bundle: true
 
+# merge test
+  - src:
+      - src/js/*.js
+    dist: dist/js/merged.js
+
+# asset copy test
 copy:
   - src:
-      - src/images/*.png
-      - src/images/**/*.png
+      - src/images/**.png
     dist: dist/images

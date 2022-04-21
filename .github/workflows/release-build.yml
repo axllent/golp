@@ -8,6 +8,7 @@ jobs:
   linux-builds:
     strategy:
       matrix:
+        go-version: ["1.18"]
         arch: ["386", amd64, arm64]
     name: linux
     runs-on: ubuntu-latest
@@ -29,10 +30,10 @@ jobs:
       - uses: docker/setup-qemu-action@v1
       - name: Build in qemu
         run: |
-          docker run --rm -v ${{ steps.pwd.outputs.srcdir }}:/src -w /src --entrypoint /bin/sh --platform linux/${{ matrix.arch }} golang:alpine -c \
+          docker run --rm -v ${{ steps.pwd.outputs.srcdir }}:/src -w /src --entrypoint /bin/sh --platform linux/${{ matrix.arch }} golang:${{ matrix.go-version }}-alpine -c \
           "apk add --no-cache gcc g++ && \
           GOPATH="/src/.cache" go build -buildvcs=false -ldflags '-s -w -extldflags -static -X github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}' \
-          && find  -name *.zip -exec chmod 664 {} \;"
+          && find /src/.cache -name *.zip -exec chmod 664 {} \;"
       - name: Golp version
         run: ./golp version
       - name: Create archive
@@ -51,7 +52,7 @@ jobs:
   darwin:
     strategy:
       matrix:
-        go-version: [1.17.x]
+        go-version: [1.18.x]
         os: [macos-latest]
         goarch: [amd64, arm64]
     runs-on: ${{ matrix.os }}

@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// IsFile returns if a path is a file
+// IsFile returns whether a path is a file
 func IsFile(path string) bool {
 	info, err := os.Stat(path)
 	if os.IsNotExist(err) || !info.Mode().IsRegular() {
@@ -19,7 +19,7 @@ func IsFile(path string) bool {
 	return true
 }
 
-// IsDir returns if a path is a directory
+// IsDir returns whether a path is a directory
 func IsDir(path string) bool {
 	info, err := os.Stat(path)
 	if os.IsNotExist(err) || !info.IsDir() {
@@ -43,7 +43,7 @@ func Copy(src, dst string) error {
 		return err
 	}
 	/* #nosec G307 */
-	// defer out.Close()
+	defer out.Close()
 
 	_, err = io.Copy(out, in)
 	if err != nil {
@@ -53,7 +53,7 @@ func Copy(src, dst string) error {
 	return out.Close()
 }
 
-// FileGetContents will get the content of a file
+// FileGetContents will get the content of a file,
 // stripping out the source map (if set)
 func FileGetContents(inFile string) (string, error) {
 	fi, err := os.Open(filepath.Clean(inFile))
@@ -74,14 +74,16 @@ func FileGetContents(inFile string) (string, error) {
 	return re.ReplaceAllString(string(b), ""), nil
 }
 
-// FileContains us used for testing
+// FileContains checks whether a file contains a string
 func FileContains(file, text string) (bool, error) {
 	// read the whole file at once
+	/* #nosec G304 */
 	b, err := ioutil.ReadFile(file)
 	if err != nil {
 		return false, err
 	}
 	s := string(b)
-	// //check whether s contains substring text
+
+	// return whether s contains substring text
 	return strings.Contains(s, text), nil
 }

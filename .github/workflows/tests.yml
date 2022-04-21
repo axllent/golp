@@ -7,10 +7,16 @@ on:
 
 jobs:
   test:
+    strategy:
+      matrix:
+        go-version: [1.18.x]
+        goarch: [amd64]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
       - uses: actions/cache@v3
         with:
           path: |
@@ -24,3 +30,9 @@ jobs:
         with:
           package: github.com/axllent/golp/app
           show-passed-tests: true
+      - name: Run Gosec security scanner
+        uses: securego/gosec@master
+        env:
+          GOROOT: ""
+        with:
+          args: ./...
