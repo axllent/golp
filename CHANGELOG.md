@@ -1,3 +1,9 @@
+## 0.1.22 - 2022-04-20
+
+### Fix
+- Close file handle after copying contents
+
+
 ## 0.1.21 - 2022-04-20
 
 ### Feature
