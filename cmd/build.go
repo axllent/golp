@@ -21,7 +21,7 @@ to debug your code. Run with '-m' to disable SourceMaps and minify the output.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if app.QuietLogging && app.VerboseLogging {
 			app.Log().Error("--quiet and --verbose are mutualfly exclusive\n\n")
-			cmd.Help()
+			_ = cmd.Help()
 			os.Exit(1)
 		}
 
