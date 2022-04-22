@@ -6,7 +6,7 @@ import (
 )
 
 func TestConfig(t *testing.T) {
-	testLogging = true
+	QuietLogging = true
 	Conf.ConfigFile = filepath.Join("..", "test-data", "golp.yaml")
 
 	if err := ParseConfig(); err != nil {
@@ -15,7 +15,7 @@ func TestConfig(t *testing.T) {
 }
 
 func TestConfigFailNoProcesses(t *testing.T) {
-	testLogging = true
+	QuietLogging = true
 	Conf.ConfigFile = filepath.Join("..", "test-data", "golp-no-processes.yaml")
 
 	if err := ParseConfig(); err == nil {
@@ -24,7 +24,7 @@ func TestConfigFailNoProcesses(t *testing.T) {
 }
 
 func TestConfigFailNoDist(t *testing.T) {
-	testLogging = true
+	QuietLogging = true
 	Conf.ConfigFile = filepath.Join("..", "test-data", "golp-no-dist.yaml")
 
 	if err := ParseConfig(); err == nil {
@@ -33,7 +33,7 @@ func TestConfigFailNoDist(t *testing.T) {
 }
 
 func TestConfigFailNoSrc(t *testing.T) {
-	testLogging = true
+	QuietLogging = true
 	Conf.ConfigFile = filepath.Join("..", "test-data", "golp-no-src.yaml")
 
 	if err := ParseConfig(); err == nil {
@@ -42,7 +42,7 @@ func TestConfigFailNoSrc(t *testing.T) {
 }
 
 func TestConfigFailNoFile(t *testing.T) {
-	testLogging = true
+	QuietLogging = true
 	Conf.ConfigFile = filepath.Join("..", "test-data", "golp-does-not-exist.yaml")
 
 	if err := ParseConfig(); err == nil {
