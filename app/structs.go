@@ -1,13 +1,5 @@
 package app
 
-// Conf struct
-var Conf struct {
-	ConfigFile string   // build process is relative to this config
-	WorkingDir string   // working directory is the base directory of the config file
-	CleanDirs  []string // is set, this directory will be deleted with clean
-	Process    []ProcessStruct
-}
-
 // ProcessStruct for config
 type ProcessStruct struct {
 	Type     string   // styles, scripts, copy
@@ -20,8 +12,9 @@ type ProcessStruct struct {
 
 // YamlConf is the yaml struct
 type yamlConf struct {
-	Clean  []string `yaml:"clean"`
-	Styles []struct {
+	Clean          []string `yaml:"clean"`
+	OptimiseImages bool     `yaml:"optimise_images"`
+	Styles         []struct {
 		Name string   `yaml:"name"`
 		Src  []string `yaml:"src"`
 		Dist string   `yaml:"dist"`

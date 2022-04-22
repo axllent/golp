@@ -13,6 +13,15 @@ import (
 )
 
 var (
+	// Conf struct
+	Conf struct {
+		ConfigFile     string   // build process is relative to this config
+		WorkingDir     string   // working directory is the base directory of the config file
+		CleanDirs      []string // is set, this directory will be deleted with clean
+		Process        []ProcessStruct
+		OptimiseImages bool
+	}
+
 	// Minify determines whether to minify the styles and scripts
 	Minify bool
 )
@@ -44,6 +53,8 @@ func ParseConfig() error {
 	for _, c := range yml.Clean {
 		Conf.CleanDirs = append(Conf.CleanDirs, filepath.Join(Conf.WorkingDir, c))
 	}
+
+	Conf.OptimiseImages = yml.OptimiseImages
 
 	for _, p := range yml.Styles {
 		c := ProcessStruct{}
@@ -122,6 +133,8 @@ func ParseConfig() error {
 	if len(Conf.Process) == 0 {
 		return fmt.Errorf("No processes defined")
 	}
+
+	initOptimiserConfig(Conf.OptimiseImages)
 
 	return nil
 }
