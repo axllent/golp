@@ -28,7 +28,7 @@ func (p ProcessStruct) processCopy() error {
 			return err
 		}
 
-		optimiseIfImage(out)
+		optimiseIfImage(p, out)
 
 		srcStat, err := os.Stat(f.InFile)
 		if err == nil {
