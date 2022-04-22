@@ -15,7 +15,7 @@ Internally it uses [esbuild](https://github.com/evanw/esbuild) for SASS/CSS, and
 - Ability to "watch" configured files for changes (ie: building during development)
 - SourceMaps for debugging SASS & JS (disabled with minification)
 - Process/compile SASS & CSS ([golibsass](https://github.com/bep/golibsass)), and JavaScript ([esbuild](https://github.com/evanw/esbuild))
-
+- Copy static assets, including optional image optimisation
 
 ## Motivation
 
@@ -88,6 +88,11 @@ Run `golp config` to view an example config file.
 clean: 
   ## optional directories to delete
   - themes/site/dist
+
+## Optionally run all copied images through image optimisers.
+## This will use (if available and in your $PATH): `optipng`, `pngquant`, `jpegoptim`/`jpegtran` and `gifsicle`.
+## Animated gifs are ignored. The default is false.
+optimise_images: true
 
 ## SASS & CSS files
 styles:

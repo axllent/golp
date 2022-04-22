@@ -28,6 +28,8 @@ func (p ProcessStruct) processCopy() error {
 			return err
 		}
 
+		optimiseIfImage(out)
+
 		srcStat, err := os.Stat(f.InFile)
 		if err == nil {
 			// get the original modification time for later
