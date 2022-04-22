@@ -21,9 +21,6 @@ All styles, scripts, and assets are relative to this file.`,
 clean: 
   - themes/site/dist
 
-# Optionally run all copied images through image optimisers.
-optimise_images: true
-
 # SASS & CSS files
 styles:
   - src:
@@ -50,6 +47,9 @@ copy:
   - src:
       - themes/site/src/images/**
     dist: themes/site/dist/images
+    optimise_images: true
+    svg_precision: 5
+
   - src: 
       - themes/site/src/fonts/**
     dist: themes/site/dist/fonts/`)

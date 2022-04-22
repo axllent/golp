@@ -1,12 +1,16 @@
 package app
 
 import (
+	"bytes"
 	"fmt"
 	"image/gif"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"github.com/tdewolff/minify/v2"
+	"github.com/tdewolff/minify/v2/svg"
 )
 
 // OptimiserConfig is the configuration for the optimiser
@@ -20,11 +24,7 @@ var OptimiserConfig struct {
 }
 
 // InitOptimiserConfig will set the optimiser config
-func initOptimiserConfig(optimise bool) {
-	if !optimise {
-		return
-	}
-
+func initOptimiserConfig() {
 	OptimiserConfig.optimise = true
 	OptimiserConfig.jpegtran = which("jpegtran")
 	if OptimiserConfig.jpegtran == "" {
@@ -47,8 +47,8 @@ func which(bin string) string {
 
 // OptimiseImage will optimise an image if it matches a specific
 // extension
-func optimiseIfImage(imgPath string) {
-	if !OptimiserConfig.optimise {
+func optimiseIfImage(p ProcessStruct, imgPath string) {
+	if !p.OptimiseImages {
 		return
 	}
 	ext := strings.ToLower(filepath.Ext(imgPath))
@@ -65,7 +65,11 @@ func optimiseIfImage(imgPath string) {
 		runOptimiser(OptimiserConfig.optipng, imgPath)
 	}
 	if OptimiserConfig.gifsicle != "" && ext == ".gif" && isGIFAnimated(imgPath) == nil {
-		runOptimiser(OptimiserConfig.gifsicle)
+		runOptimiser(OptimiserConfig.gifsicle, imgPath)
+	}
+
+	if ext == ".svg" {
+		optimiseSVG(p, imgPath)
 	}
 }
 
@@ -96,4 +100,43 @@ func isGIFAnimated(gifFile string) error {
 	}
 
 	return fmt.Errorf("Animated gif")
+}
+
+func optimiseSVG(p ProcessStruct, imgPath string) {
+	min := minify.New()
+	m := svg.Minifier{Precision: p.SVGPrecision}
+
+	file, err := os.Open(filepath.Clean(imgPath))
+	if err != nil {
+		Log().Error(err)
+		return
+	}
+
+	/* #nosec G307 */
+	defer file.Close()
+
+	buf := &bytes.Buffer{}
+
+	if err := m.Minify(min, buf, file, nil); err != nil {
+		Log().Error(err)
+		return
+	}
+
+	/* #nosec G104 */
+	file.Close()
+
+	f, err := os.Create(filepath.Clean(imgPath))
+	if err != nil {
+		Log().Errorf(err.Error())
+		return
+	}
+
+	/* #nosec G307 */
+	defer f.Close()
+
+	Log().Debugf("optimising %s", rel(imgPath))
+
+	if _, err := buf.WriteTo(f); err != nil {
+		Log().Errorf(err.Error())
+	}
 }

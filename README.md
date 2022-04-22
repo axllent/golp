@@ -15,7 +15,8 @@ Internally it uses [esbuild](https://github.com/evanw/esbuild) for SASS/CSS, and
 - Ability to "watch" configured files for changes (ie: building during development)
 - SourceMaps for debugging SASS & JS (disabled with minification)
 - Process/compile SASS & CSS ([golibsass](https://github.com/bep/golibsass)), and JavaScript ([esbuild](https://github.com/evanw/esbuild))
-- Copy static assets, including optional image optimisation
+- Copy static assets, including optional image optimisation (jpg, png, gif, svg)
+
 
 ## Motivation
 
@@ -89,12 +90,6 @@ clean:
   ## optional directories to delete
   - themes/site/dist
 
-## Optionally run all copied images through image optimisers.
-## This will use (if available and in your $PATH): `optipng`, `pngquant`,
-## `jpegoptim` (or `jpegtran`) and `gifsicle`.
-## Animated gifs are ignored. The default is false.
-optimise_images: true
-
 ## SASS & CSS files
 styles:
   - src:
@@ -133,12 +128,21 @@ scripts:
     name: site scripts
 
 ## Copy all matching files from the src directories to the dist directories.
-## This does not support merging or compressing of files do dist should be a directory name.
+## This does not support merging of files so dist should be a directory name.
 copy:
   - src:
       - themes/site/src/images/**
     dist: themes/site/dist/images
     name: images
+    ## Optionally run all copied images through image optimisers.
+    ## This will use (if available and in your $PATH): `optipng`, `pngquant`,
+    ## `jpegoptim` (or `jpegtran`) and `gifsicle`.
+    ## Animated gifs are ignored. The default is false.
+    optimise_images: true
+
+    ## Optional SVG precision for SVG minification on copy. 
+    ## Only used if `optimise_images` is true, default 5 (1-25)
+    svg_precision: 5
 
   - src: 
       - themes/site/src/fonts/**
