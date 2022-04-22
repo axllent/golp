@@ -99,7 +99,7 @@ func WatchSrcDirs() {
 			Log().Error(err.Error())
 		}
 
-		Log().Debugf("watching %s", wm.Path)
+		Log().Debugf("watching %s", rel(wm.Path))
 	}
 
 	Log().Info("watching for changes...")
