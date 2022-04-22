@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"strings"
 )
 
 var processTypes = map[string]bool{"styles": true, "scripts": true, "copy": true}
@@ -20,4 +21,12 @@ func (p ProcessStruct) Process() error {
 	}
 
 	return fmt.Errorf("Unknown process type: %s", p.Type)
+}
+
+func rel(p string) string {
+	if strings.HasPrefix(p, Conf.WorkingDir+"/") {
+		return strings.TrimPrefix(p, Conf.WorkingDir+"/")
+	}
+
+	return p
 }

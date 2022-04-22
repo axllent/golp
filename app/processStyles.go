@@ -47,7 +47,7 @@ func (p ProcessStruct) processStyles() error {
 			return err
 		}
 
-		Log().Debugf("processed %d SASS files to %s", len(files), out)
+		Log().Debugf("processed %d SASS files to %s", len(files), rel(out))
 		Log().Infof("'%s' compiled in %v", p.Name, sw.Elapsed())
 
 		return nil
@@ -83,6 +83,9 @@ func (p ProcessStruct) processStyles() error {
 			if err := compileStyles(string(content), out, f.InFile); err != nil {
 				return err
 			}
+
+			Log().Debugf("compiled %s to %s", rel(f.InFile), rel(out))
+
 		} else {
 			Log().Warningf("unsupported stylesheet file extension: %s", f)
 		}

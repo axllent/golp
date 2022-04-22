@@ -135,7 +135,7 @@ func (p ProcessStruct) Files() []FileMap {
 
 	for _, pth := range p.Src {
 		fullpth := filepath.ToSlash(filepath.Join(Conf.WorkingDir, pth))
-		Log().Debugf("Finding files in %s", fullpth)
+		Log().Debugf("finding files in %s", rel(fullpth))
 		matches, err := fg.Glob(fullpth, fg.MaybeRootFS)
 		if err == nil {
 			subDir := ""

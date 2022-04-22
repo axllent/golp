@@ -35,11 +35,11 @@ func (p ProcessStruct) processCopy() error {
 			atime := mtime // use mtime as we cannot get atime
 
 			if err := os.Chtimes(out, atime, mtime); err != nil {
-				Log().Debugf("Error setting file timestamp: %v\n", err)
+				Log().Debugf("error setting file timestamp: %v\n", err)
 			}
 		}
 
-		Log().Debugf("copied %s to %s", f.InFile, out)
+		Log().Debugf("copied %s to %s", rel(f.InFile), rel(out))
 	}
 
 	Log().Infof("'%s' copied in %v", p.Name, sw.Elapsed())

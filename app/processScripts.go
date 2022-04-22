@@ -66,7 +66,7 @@ func (p ProcessStruct) processScripts() error {
 			return fmt.Errorf("%s", errorMsg)
 		}
 
-		Log().Debugf("compiled %d JS files to %s", len(files), out)
+		Log().Debugf("compiled %d JS files to %s", len(files), rel(out))
 		Log().Infof("'%s' compiled in %v", p.Name, sw.Elapsed())
 		return nil
 	}
@@ -114,7 +114,7 @@ func (p ProcessStruct) processScripts() error {
 			return fmt.Errorf("%s", errorMsg)
 		}
 
-		Log().Debugf("compiled %s to %s", f.InFile, out)
+		Log().Debugf("compiled %s to %s", rel(f.InFile), rel(out))
 	}
 
 	Log().Infof("'%s' compiled in %v", p.Name, sw.Elapsed())
