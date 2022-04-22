@@ -19,7 +19,7 @@ var (
 )
 
 func TestProcessConfig(t *testing.T) {
-	testLogging = true
+	QuietLogging = true
 	Conf.ConfigFile = filepath.Join("..", "test-data", "golp.yaml")
 
 	if err := ParseConfig(); err != nil {
@@ -28,11 +28,13 @@ func TestProcessConfig(t *testing.T) {
 }
 
 func TestProcessClean(t *testing.T) {
+	QuietLogging = true
 	if err := Clean(); err != nil {
 		t.Error(err)
 	}
 }
 func TestProcessExec(t *testing.T) {
+	QuietLogging = true
 	for _, p := range Conf.Process {
 		if err := p.Process(); err != nil {
 			t.Error(err)
@@ -41,7 +43,7 @@ func TestProcessExec(t *testing.T) {
 }
 
 func TestProcessSourceMaps(t *testing.T) {
-
+	QuietLogging = true
 	cssDir := filepath.Join(Conf.WorkingDir, "dist", "css")
 
 	for _, c := range cssFiles {
@@ -98,6 +100,7 @@ func TestProcessSourceMaps(t *testing.T) {
 }
 
 func TestProcessCompressed(t *testing.T) {
+	QuietLogging = true
 	Minify = true
 
 	for _, p := range Conf.Process {
@@ -108,6 +111,7 @@ func TestProcessCompressed(t *testing.T) {
 }
 
 func TestProcessCompressedFiles(t *testing.T) {
+	QuietLogging = true
 	cssDir := filepath.Join(Conf.WorkingDir, "dist", "css")
 
 	for _, c := range cssFiles {
@@ -159,6 +163,7 @@ func TestProcessCompressedFiles(t *testing.T) {
 }
 
 func TestProcessCopyFiles(t *testing.T) {
+	QuietLogging = true
 	copyDir := filepath.Join(Conf.WorkingDir, "dist", "images")
 
 	for _, c := range copyFiles {
@@ -176,6 +181,7 @@ func TestProcessCopyFiles(t *testing.T) {
 }
 
 func TestProcessCleanFinal(t *testing.T) {
+	QuietLogging = true
 	if err := Clean(); err != nil {
 		t.Error(err)
 	}

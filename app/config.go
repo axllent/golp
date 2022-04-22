@@ -13,6 +13,15 @@ import (
 )
 
 var (
+	// Conf struct
+	Conf struct {
+		ConfigFile     string   // build process is relative to this config
+		WorkingDir     string   // working directory is the base directory of the config file
+		CleanDirs      []string // is set, this directory will be deleted with clean
+		Process        []ProcessStruct
+		OptimiseImages bool
+	}
+
 	// Minify determines whether to minify the styles and scripts
 	Minify bool
 )
@@ -44,6 +53,8 @@ func ParseConfig() error {
 	for _, c := range yml.Clean {
 		Conf.CleanDirs = append(Conf.CleanDirs, filepath.Join(Conf.WorkingDir, c))
 	}
+
+	Conf.OptimiseImages = yml.OptimiseImages
 
 	for _, p := range yml.Styles {
 		c := ProcessStruct{}
@@ -123,6 +134,8 @@ func ParseConfig() error {
 		return fmt.Errorf("No processes defined")
 	}
 
+	initOptimiserConfig(Conf.OptimiseImages)
+
 	return nil
 }
 
@@ -135,10 +148,9 @@ func (p ProcessStruct) Files() []FileMap {
 
 	for _, pth := range p.Src {
 		fullpth := filepath.ToSlash(filepath.Join(Conf.WorkingDir, pth))
-		Log().Debugf("Finding files in %s", fullpth)
+		Log().Debugf("finding files in %s", rel(fullpth))
 		matches, err := fg.Glob(fullpth, fg.MaybeRootFS)
 		if err == nil {
-			subDir := ""
 			subDirFrom := ""
 
 			if strings.Contains(fullpth, "*") {
@@ -148,6 +160,7 @@ func (p ProcessStruct) Files() []FileMap {
 
 			for _, f := range matches {
 				if utils.IsFile(f) {
+					subDir := ""
 					// only add each file once
 					if _, ok := exists[f]; ok {
 						continue

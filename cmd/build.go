@@ -19,6 +19,11 @@ to debug your code. Run with '-m' to disable SourceMaps and minify the output.`,
 	Args:    cobra.ExactArgs(0),
 	Aliases: []string{"package"},
 	Run: func(cmd *cobra.Command, args []string) {
+		if app.QuietLogging && app.VerboseLogging {
+			app.Log().Error("--quiet and --verbose are mutualfly exclusive\n\n")
+			_ = cmd.Help()
+			os.Exit(1)
+		}
 
 		if cmd.CalledAs() == "package" {
 			app.Minify = true

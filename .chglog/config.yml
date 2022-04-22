@@ -12,9 +12,9 @@ options:
     #     - perf
     #     - refactor
   commit_groups:
-    # title_maps:
-    #   feat: Features
-    #   fix: Bug Fixes
+    title_maps:
+      feature: Feature
+      fix: Fix
     #   perf: Performance Improvements
     #   refactor: Code Refactoring
   header:

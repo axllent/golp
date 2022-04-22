@@ -1,4 +1,18 @@
-## 0.1.22 - 2022-04-20
+## 0.1.23 - 2022-04-23
+
+### Debug
+- Use relative paths in debug output
+
+### Feature
+- Optional image optimisation on copy
+- Add --quiet option for build & watch
+- Preserve timestamps of copied files
+
+### Fix
+- Fix subdirectory patterns in recursive copy
+
+
+## 0.1.22 - 2022-04-21
 
 ### Fix
 - Close file handle after copying contents

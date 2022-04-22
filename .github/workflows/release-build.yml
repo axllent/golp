@@ -68,7 +68,7 @@ jobs:
       with:
         path: |
           ~/Library/Caches/go-build
-          ~/go/pkg/mod
+          ~/go
         key: darwin_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
         restore-keys: |
           darwin_${{ matrix.goarch }}-go-
@@ -110,7 +110,7 @@ jobs:
       with:
         path: |
           ~\AppData\Local\go-build
-          ~\go\pkg\mod
+          ~\go
         key: windows_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
         restore-keys: |
           windows_${{ matrix.goarch }}-go-

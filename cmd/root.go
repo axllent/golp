@@ -35,7 +35,8 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&app.Conf.ConfigFile, "config", "c", "./golp.yaml", "config file")
-	rootCmd.PersistentFlags().BoolVarP(&app.VerboseLogging, "verbose", "v", false, "verbose logging")
+	rootCmd.PersistentFlags().BoolVarP(&app.VerboseLogging, "verbose", "v", false, "verbose output")
+	rootCmd.PersistentFlags().BoolVarP(&app.QuietLogging, "quiet", "q", false, "no output except for errors")
 
 	rootCmd.CompletionOptions.HiddenDefaultCmd = true
 	rootCmd.SetHelpCommand(&cobra.Command{Hidden: true})
