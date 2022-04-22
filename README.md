@@ -90,7 +90,8 @@ clean:
   - themes/site/dist
 
 ## Optionally run all copied images through image optimisers.
-## This will use (if available and in your $PATH): `optipng`, `pngquant`, `jpegoptim`/`jpegtran` and `gifsicle`.
+## This will use (if available and in your $PATH): `optipng`, `pngquant`,
+## `jpegoptim` (or `jpegtran`) and `gifsicle`.
 ## Animated gifs are ignored. The default is false.
 optimise_images: true
 
