@@ -1,3 +1,9 @@
+## 0.1.24 - 2022-04-23
+
+### Feature
+- Optional SVG optimisation on copy
+
+
 ## 0.1.23 - 2022-04-23
 
 ### Debug
