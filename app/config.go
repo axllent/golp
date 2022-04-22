@@ -138,7 +138,6 @@ func (p ProcessStruct) Files() []FileMap {
 		Log().Debugf("finding files in %s", rel(fullpth))
 		matches, err := fg.Glob(fullpth, fg.MaybeRootFS)
 		if err == nil {
-			subDir := ""
 			subDirFrom := ""
 
 			if strings.Contains(fullpth, "*") {
@@ -148,6 +147,7 @@ func (p ProcessStruct) Files() []FileMap {
 
 			for _, f := range matches {
 				if utils.IsFile(f) {
+					subDir := ""
 					// only add each file once
 					if _, ok := exists[f]; ok {
 						continue
