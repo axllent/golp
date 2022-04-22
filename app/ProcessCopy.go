@@ -28,6 +28,17 @@ func (p ProcessStruct) processCopy() error {
 			return err
 		}
 
+		srcStat, err := os.Stat(f.InFile)
+		if err == nil {
+			// get the original modification time for later
+			mtime := srcStat.ModTime()
+			atime := mtime // use mtime as we cannot get atime
+
+			if err := os.Chtimes(out, atime, mtime); err != nil {
+				Log().Debugf("Error setting file timestamp: %v\n", err)
+			}
+		}
+
 		Log().Debugf("copied %s to %s", f.InFile, out)
 	}
 
