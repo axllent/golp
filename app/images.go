@@ -64,8 +64,12 @@ func optimiseIfImage(p ProcessStruct, imgPath string) {
 	if OptimiserConfig.optipng != "" && ext == ".png" {
 		runOptimiser(OptimiserConfig.optipng, imgPath)
 	}
-	if OptimiserConfig.gifsicle != "" && ext == ".gif" && isGIFAnimated(imgPath) == nil {
-		runOptimiser(OptimiserConfig.gifsicle, imgPath)
+	if OptimiserConfig.gifsicle != "" && ext == ".gif" {
+		if isGIFAnimated(imgPath) == nil {
+			runOptimiser(OptimiserConfig.gifsicle, imgPath, "-o", imgPath)
+		} else {
+			Log().Debugf("skipping optimisation of animated gif %s", rel(imgPath))
+		}
 	}
 
 	if ext == ".svg" {
