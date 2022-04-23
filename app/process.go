@@ -8,21 +8,20 @@ import (
 var processTypes = map[string]bool{"styles": true, "scripts": true, "copy": true}
 
 // Process will process the ProcessStruct
-func (p ProcessStruct) Process() error {
+func (p ProcessStruct) Process(fileName string) error {
 	switch p.Type {
 	case "styles":
-		// return nil
 		return p.processStyles()
 	case "scripts":
-		// return nil
 		return p.processScripts()
 	case "copy":
-		return p.processCopy()
+		return p.processCopy(fileName)
 	}
 
 	return fmt.Errorf("Unknown process type: %s", p.Type)
 }
 
+// Return the relative file path
 func rel(p string) string {
 	if strings.HasPrefix(p, Conf.WorkingDir+"/") {
 		return strings.TrimPrefix(p, Conf.WorkingDir+"/")

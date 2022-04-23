@@ -8,12 +8,19 @@ import (
 	"github.com/axllent/golp/utils"
 )
 
-func (p ProcessStruct) processCopy() error {
+// ProcessCopy will copy files from the source directory to the destination directory.
+// If fileName is specified, just a single file will be copied.
+func (p ProcessStruct) processCopy(fileName string) error {
 	sw := utils.StartTimer()
 
 	files := p.Files()
 
 	for _, f := range files {
+		if fileName != "" && f.InFile != fileName {
+			// not the same file, ignore
+			continue
+		}
+
 		filename := filepath.Base(f.InFile)
 		d := path.Join(p.Dist, f.OutPath)
 		if !utils.IsDir(d) {
@@ -44,7 +51,11 @@ func (p ProcessStruct) processCopy() error {
 		Log().Debugf("copied %s to %s", rel(f.InFile), rel(out))
 	}
 
-	Log().Infof("'%s' copied in %v", p.Name, sw.Elapsed())
+	if fileName != "" {
+		Log().Infof("'%s' updated in %v", p.Name, sw.Elapsed())
+	} else {
+		Log().Infof("'%s' copied in %v", p.Name, sw.Elapsed())
+	}
 
 	return nil
 }
