@@ -5,8 +5,6 @@ import (
 	"strings"
 )
 
-var processTypes = map[string]bool{"styles": true, "scripts": true, "copy": true}
-
 // Process will process the ProcessStruct
 func (p ProcessStruct) Process(fileName string) error {
 	switch p.Type {

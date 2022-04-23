@@ -76,76 +76,41 @@ You can also install it from source: `go install github.com/axllent/golp@latest`
 
 Typically your configuration file will be found in your project root folder, and named `golp.yaml`. An alternative config can be specified using the `-c` flag.
 
-Please note that all `styles`, `scripts` and `copy` source files are relative to your config file.
+Golp has four types of task types: `clean`, `styles`, `scripts` and `copy`. Please see the [wiki](https://github.com/axllent/golp/wiki) for a full list of configuration options.
 
 Run `golp config` to view an example config file.
 
 
 ### Example config file
 
+Please see the [wiki](https://github.com/axllent/golp/wiki) for a full list of configuration options.
+
 ```yaml
-## Optionally specify directories and/or files to automatically delete on every build, 
-## and on `golp clean`. Files can be matched with wildcards.
 clean: 
-  ## optional directories to delete
   - themes/site/dist
 
-## SASS & CSS files
 styles:
   - src:
-      ## process all *.scss files in this folder
       - themes/site/src/sass/*.scss
-      ## process all *.css files in this folder and child folders
-      - themes/site/src/sass/**.css 
-      ## add a specific file
+      - themes/site/src/css/**.css 
       - node_modules/@dashboardcode/bsmultiselect/dist/css/BsMultiSelect.css
-    ## output directory for all src files
     dist: themes/site/dist/css/
 
-## JS scripts are processed with esbuild, and can be optionally merged into a single file,
-## and optionally bundled (see https://esbuild.github.io/api/#bundle)
 scripts:
-  ## compile and merge these into a single libs.js file
   - src:
       - node_modules/@popperjs/core/dist/umd/popper.min.js
       - node_modules/bootstrap/dist/js/bootstrap.min.js
       - node_modules/axios/dist/axios.min.js
-      - node_modules/@dashboardcode/bsmultiselect/dist/js/BsMultiSelect.min.js
-      - node_modules/vuedraggable/dist/vuedraggable.umd.min.js
-      - node_modules/sortablejs/Sortable.min.js
-      - node_modules/vue/dist/vue.global.prod.js
-    ## merge all files into a single file (only scripts & styles supported)
-    dist: themes/site/dist/js/libs.js 
-    ## optional name for the console output
-    name: libs
-    ## optionally bundle your JavaScript, @see https://esbuild.github.io/api/#bundle 
-    # bundle: true
-
-  ## compile all *.js files in this folder and child folders
-  - src:
       - themes/site/src/js/**.js
-    dist: themes/site/dist/js
-    name: site scripts
+    dist: themes/site/dist/js/libs.js 
 
-## Copy all matching files from the src directories to the dist directories.
-## This does not support merging of files so dist should be a directory name.
 copy:
   - src:
       - themes/site/src/images/**
     dist: themes/site/dist/images
-    name: images
-    ## Optionally run all copied images through image optimisers.
-    ## This will use (if available and in your $PATH): `optipng`, `pngquant`,
-    ## `jpegoptim` (or `jpegtran`) and `gifsicle`.
-    ## Animated gifs are ignored. The default is false.
     optimise_images: true
-
-    ## Optional SVG precision for SVG minification on copy. 
-    ## Only used if `optimise_images` is true, default 5 (1-25)
     svg_precision: 5
-
-  - src: 
+  - src:
       - themes/site/src/fonts/**
-    dist: themes/site/dist/fonts/
-    name: fonts
+    dist: themes/site/dist/fonts  
 ```
