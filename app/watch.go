@@ -64,24 +64,25 @@ func WatchSrcDirs() {
 			})
 		}
 
-		if err := proc.Process(); err != nil {
+		if err := proc.Process(""); err != nil {
 			Log().Errorf("Error processing: %s", err)
 		}
 	}
 
 	w := watcher.New()
 
-	// if SetMaxEvents is not set, the default is to send all events
-	// ie: if a directory is renamed then multiple events are sent
-	w.SetMaxEvents(1)
-
 	go func() {
 		for {
 			select {
 			case event := <-w.Event:
 				for _, w := range watcherMap {
+					if event.FileInfo.IsDir() {
+						// ignore directory events as we handle files
+						continue
+					}
+
 					if event.Path == w.Path || strings.HasPrefix(event.Path, w.Path+string(os.PathSeparator)) {
-						if err := w.ProcessStruct.Process(); err != nil {
+						if err := w.ProcessStruct.Process(event.Path); err != nil {
 							Log().Error(err.Error())
 						}
 					}

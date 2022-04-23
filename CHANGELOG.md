@@ -1,3 +1,12 @@
+## 0.1.25 - 2022-04-23
+
+### Feature
+- Copy while watching will only process modified files
+
+### Fix
+- gifsicle optimisation
+
+
 ## 0.1.24 - 2022-04-23
 
 ### Feature

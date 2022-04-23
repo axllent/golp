@@ -42,7 +42,7 @@ to debug your code. Run with '-m' to disable SourceMaps and minify the output.`,
 		}
 
 		for _, p := range app.Conf.Process {
-			if err := p.Process(); err != nil {
+			if err := p.Process(""); err != nil {
 				app.Log().Error(err.Error())
 				os.Exit(1)
 			}
