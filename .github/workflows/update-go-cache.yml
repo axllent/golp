@@ -25,10 +25,8 @@ jobs:
           path: |
             ${{ steps.pwd.outputs.srcdir }}/.go
           key: linux_${{ matrix.arch }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            linux_${{ matrix.arch }}-go-
       - uses: docker/setup-qemu-action@v1
-      - name: Build in qemu
+      - name: Rebuild in qemu if required
         if: |
           steps.cache.outputs.cache-hit != 'true'
         run: |
@@ -57,15 +55,13 @@ jobs:
           ~/Library/Caches/go-build
           ~/go
         key: darwin_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          darwin_${{ matrix.goarch }}-go-
     - name: Rebuild if required
       if: |
         steps.cache.outputs.cache-hit != 'true'
       run: go build -trimpath -ldflags '-s -w -X "github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}"'
       env:
         CGO_ENABLED: 1
-    - name: Compress and check size
+    - name: Compress and check size if rebuilt
       if: |
         steps.cache.outputs.cache-hit != 'true'
       shell: bash
@@ -97,8 +93,6 @@ jobs:
           ~\AppData\Local\go-build
           ~\go
         key: windows_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          windows_${{ matrix.goarch }}-go-
     - name: Rebuild if required
       if: |
         steps.cache.outputs.cache-hit != 'true'
