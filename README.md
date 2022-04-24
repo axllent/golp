@@ -2,9 +2,9 @@
 
 **This app is very much in beta at the moment!**
 
-Golp automates build workflows, compiling SASS and JavaScript into configurable "dist" directories, and copying of static assets.
+Golp automates build workflows, compiling SASS and JavaScript into configurable "dist" directories, and copying of static assets with optional image optimisation.
 
-Golp is not a Gulp drop-in replacement, but aims to provide an easy-to-use build tool for typical websites using SASS & JavaScript. It is fast, simple, and runs from a single binary.
+Golp is not a Gulp drop-in replacement, but aims to provide an easy-to-use build alternative for typical websites using SASS & JavaScript. It is fast, simple, and runs from a single binary.
 
 Internally it uses [esbuild](https://github.com/evanw/esbuild) for SASS/CSS, and [golibsass](https://github.com/bep/golibsass) for JavaScript compilation.
 
@@ -20,7 +20,7 @@ Internally it uses [esbuild](https://github.com/evanw/esbuild) for SASS/CSS, and
 
 ## Motivation
 
-Having used [Gulp](https://gulpjs.com/) for several years to build and package website assets (compiling SASS, JavaScript and copy some src assets such as images and fonts to a dist folder), I wanted to reduce the build build overheads and reliance on node packages. The development of Gulp has practically stopped, which has lead to much frustration due to outdated package requirements, many of which have known CVE issues.
+Having used [Gulp](https://gulpjs.com/) for several years to build and package website assets (compiling SASS, JavaScript and copy some src assets such as images and fonts to a dist folder), I wanted to reduce the build build overheads and reliance on a whole node ecosystem just to process website assets. The development of Gulp has practically stopped, which has lead to much frustration due to outdated package requirements, many of which have known vulnerabilities (CVE issues).
 
 Using just a single binary (Golp), I was able to reduce the build/compile time by ~50% (not even including the additional `npm install` time), as well as drastically reduce the number of node packages (required for gulp) by about 1,250 packages (9,062 files).
 
@@ -43,6 +43,7 @@ Available Commands:
 Flags:
   -c  --config string   config file (default "./golp.yaml")
   -h, --help            help for golp
+  -q, --quiet           no output except for errors
   -v, --verbose         verbose logging
 ```
 
