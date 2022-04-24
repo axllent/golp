@@ -14,12 +14,12 @@ func TestConfig(t *testing.T) {
 	}
 }
 
-func TestConfigFailNoProcesses(t *testing.T) {
+func TestConfigFailNoTasks(t *testing.T) {
 	QuietLogging = true
-	Conf.ConfigFile = filepath.Join("..", "test-data", "golp-no-processes.yaml")
+	Conf.ConfigFile = filepath.Join("..", "test-data", "golp-no-tasks.yaml")
 
 	if err := ParseConfig(); err == nil {
-		t.Error("golp-no-processes.yaml should have returned an error")
+		t.Error("golp-no-tasks.yaml should have returned an error")
 	}
 }
 

@@ -28,10 +28,10 @@ func WatchSrcDirs() {
 		os.Exit(1)
 	}
 
-	for _, proc := range Conf.Process {
+	for _, task := range Conf.Tasks {
 		mapPaths := make(map[string]bool)
 
-		for _, src := range proc.Src {
+		for _, src := range task.Src {
 			dir := filepath.Dir(src)
 
 			mapPaths[dir] = true
@@ -41,7 +41,7 @@ func WatchSrcDirs() {
 
 		for p := range mapPaths {
 			if !utils.IsDir(p) {
-				Log().Warnf("'%s' directory \"%s\" not found, ignoring", proc.Type, p)
+				Log().Warnf("'%s' directory \"%s\" not found, ignoring", task.Type, p)
 			} else {
 				paths = append(paths, p)
 			}
@@ -59,12 +59,12 @@ func WatchSrcDirs() {
 				panic(err)
 			}
 			watcherMap = append(watcherMap, watchMap{
-				Path:          a,
-				ProcessStruct: proc,
+				Path:       a,
+				TaskStruct: task,
 			})
 		}
 
-		if err := proc.Process(""); err != nil {
+		if err := task.Process(""); err != nil {
 			Log().Errorf("Error processing: %s", err)
 		}
 	}
@@ -82,7 +82,7 @@ func WatchSrcDirs() {
 					}
 
 					if event.Path == w.Path || strings.HasPrefix(event.Path, w.Path+string(os.PathSeparator)) {
-						if err := w.ProcessStruct.Process(event.Path); err != nil {
+						if err := w.TaskStruct.Process(event.Path); err != nil {
 							Log().Error(err.Error())
 						}
 					}

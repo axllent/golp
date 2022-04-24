@@ -26,7 +26,9 @@ var (
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Display the current version & update information",
-	Long:  `Displays the current version & update information.`,
+	Long: `Display the current version & update information (if available).
+	
+To view module versions, use the --modules flag.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 
 		modules, _ := cmd.Flags().GetBool("modules")

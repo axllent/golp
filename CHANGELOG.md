@@ -1,3 +1,9 @@
+## 0.1.27 - 2022-04-24
+
+### Docs
+- Update cli documentation
+
+
 ## 0.1.25 - 2022-04-23
 
 ### Feature
