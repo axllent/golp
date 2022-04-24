@@ -36,3 +36,36 @@ jobs:
           GOROOT: ""
         with:
           args: ./...
+
+  # Hacky, but necessary to update the cache on the default branch (develop) if/when '**/go.sum' is 
+  # updated. Github does not allow cache sharing between branches, except from the default branch.  
+  # Ensure the same keys are used as the release-build, and that it uses the exact same build options.
+  linux-cache:
+    strategy:
+      matrix:
+        go-version: ["1.18"]
+        arch: ["386", amd64, arm64]
+    name: linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - name: Set src directory
+        id: pwd
+        run: echo "::set-output name=srcdir::$(pwd)"
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: |
+            ${{ steps.pwd.outputs.srcdir }}/.cache
+          key: linux_${{ matrix.arch }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            linux_${{ matrix.arch }}-go-
+      - uses: docker/setup-qemu-action@v1
+      - name: Build in qemu
+        if: |
+          steps.cache.outputs.cache-hit != 'true'
+        run: |
+          docker run --rm -v ${{ steps.pwd.outputs.srcdir }}:/src -w /src --entrypoint /bin/sh --platform linux/${{ matrix.arch }} golang:${{ matrix.go-version }}-alpine -c \
+          "apk add --no-cache gcc g++ && \
+          GOPATH="/src/.cache" go build -buildvcs=false -ldflags '-s -w -extldflags -static' \
+          && find /src/.cache -name *.zip -exec chmod 664 {} \;"
