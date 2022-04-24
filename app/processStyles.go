@@ -10,12 +10,12 @@ import (
 	"github.com/axllent/golp/utils"
 )
 
-func (p ProcessStruct) processStyles() error {
+func (task TaskStruct) processStyles() error {
 	sw := utils.StartTimer()
 
-	files := p.Files()
+	files := task.Files()
 
-	if p.DistFile != "" {
+	if task.DistFile != "" {
 		imports := []string{}
 		for _, f := range files {
 			extension := strings.ToLower(filepath.Ext(f.InFile))
@@ -32,30 +32,30 @@ func (p ProcessStruct) processStyles() error {
 			}
 		}
 
-		if !utils.IsDir(p.Dist) {
+		if !utils.IsDir(task.Dist) {
 			/* #nosec G301 */
-			if err := os.MkdirAll(p.Dist, 0755); err != nil {
+			if err := os.MkdirAll(task.Dist, 0755); err != nil {
 				return err
 			}
 		}
 
 		sassImport := strings.Join(imports, "\n")
 
-		out := path.Join(p.Dist, p.DistFile)
+		out := path.Join(task.Dist, task.DistFile)
 
 		if err := compileStyles(sassImport, out, ""); err != nil {
 			return err
 		}
 
 		Log().Debugf("processed %d SASS files to %s", len(files), rel(out))
-		Log().Infof("'%s' compiled in %v", p.Name, sw.Elapsed())
+		Log().Infof("'%s' compiled in %v", task.Name, sw.Elapsed())
 
 		return nil
 	}
 
 	for _, f := range files {
 		filename := filepath.Base(f.InFile)
-		d := path.Join(p.Dist, f.OutPath)
+		d := path.Join(task.Dist, f.OutPath)
 		if !utils.IsDir(d) {
 			/* #nosec G301 */
 			if err := os.MkdirAll(d, 0755); err != nil {
@@ -91,7 +91,7 @@ func (p ProcessStruct) processStyles() error {
 		}
 	}
 
-	Log().Infof("'%s' compiled in %v", p.Name, sw.Elapsed())
+	Log().Infof("'%s' compiled in %v", task.Name, sw.Elapsed())
 
 	return nil
 }

@@ -33,10 +33,10 @@ func TestProcessClean(t *testing.T) {
 		t.Error(err)
 	}
 }
-func TestProcessExec(t *testing.T) {
+func TestTaskProcess(t *testing.T) {
 	QuietLogging = true
-	for _, p := range Conf.Process {
-		if err := p.Process(""); err != nil {
+	for _, task := range Conf.Tasks {
+		if err := task.Process(""); err != nil {
 			t.Error(err)
 		}
 	}
@@ -103,8 +103,8 @@ func TestProcessCompressed(t *testing.T) {
 	QuietLogging = true
 	Minify = true
 
-	for _, p := range Conf.Process {
-		if err := p.Process(""); err != nil {
+	for _, task := range Conf.Tasks {
+		if err := task.Process(""); err != nil {
 			t.Error(err)
 		}
 	}

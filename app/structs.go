@@ -1,9 +1,9 @@
 package app
 
-// ProcessStruct for config
-type ProcessStruct struct {
+// TaskStruct for config
+type TaskStruct struct {
 	Type           string   // styles, scripts, copy
-	Name           string   // name of the process
+	Name           string   // name of the task
 	Src            []string // source files
 	Dist           string   // dist directory
 	DistFile       string   // optional merge filename
@@ -36,8 +36,8 @@ type yamlConf struct {
 }
 
 type watchMap struct {
-	Path          string
-	ProcessStruct ProcessStruct
+	Path       string
+	TaskStruct TaskStruct
 }
 
 // FileMap struct maps the file to the respective dist directory

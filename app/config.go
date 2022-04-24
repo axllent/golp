@@ -15,10 +15,10 @@ import (
 var (
 	// Conf struct
 	Conf struct {
-		ConfigFile string   // build process is relative to this config
+		ConfigFile string   // build tasks are relative to this config
 		WorkingDir string   // working directory is the base directory of the config file
 		CleanDirs  []string // is set, this directory will be deleted with clean
-		Process    []ProcessStruct
+		Tasks      []TaskStruct
 	}
 
 	// Minify determines whether to minify the styles and scripts
@@ -28,7 +28,7 @@ var (
 // ParseConfig reads a yaml file and returns a Conf struct
 func ParseConfig() error {
 	var yml = yamlConf{}
-	Conf.Process = []ProcessStruct{}
+	Conf.Tasks = []TaskStruct{}
 
 	if !utils.IsFile(Conf.ConfigFile) {
 		return fmt.Errorf("Config %s does not exist", Conf.ConfigFile)
@@ -53,89 +53,89 @@ func ParseConfig() error {
 		Conf.CleanDirs = append(Conf.CleanDirs, filepath.Join(Conf.WorkingDir, c))
 	}
 
-	for _, p := range yml.Styles {
-		c := ProcessStruct{}
+	for _, task := range yml.Styles {
+		c := TaskStruct{}
 		c.Type = "styles"
-		c.Name = p.Name
+		c.Name = task.Name
 		if c.Name == "" {
 			c.Name = c.Type
 		}
 
-		c.Src = p.Src
+		c.Src = task.Src
 
-		if p.Dist == "" {
+		if task.Dist == "" {
 			return fmt.Errorf("Dist is not set for %s", c.Name)
 		}
 
-		if strings.HasSuffix(p.Dist, ".css") {
-			c.DistFile = filepath.Base(p.Dist)
-			p.Dist = filepath.Dir(p.Dist)
+		if strings.HasSuffix(task.Dist, ".css") {
+			c.DistFile = filepath.Base(task.Dist)
+			task.Dist = filepath.Dir(task.Dist)
 		}
 
-		c.Dist = filepath.Join(Conf.WorkingDir, p.Dist)
+		c.Dist = filepath.Join(Conf.WorkingDir, task.Dist)
 
 		if len(c.Src) > 0 {
-			Conf.Process = append(Conf.Process, c)
+			Conf.Tasks = append(Conf.Tasks, c)
 		}
 	}
 
-	for _, p := range yml.Scripts {
-		c := ProcessStruct{}
+	for _, task := range yml.Scripts {
+		c := TaskStruct{}
 		c.Type = "scripts"
-		c.Name = p.Name
+		c.Name = task.Name
 		if c.Name == "" {
 			c.Name = c.Type
 		}
 
-		c.Src = p.Src
+		c.Src = task.Src
 
-		if p.Dist == "" {
+		if task.Dist == "" {
 			return fmt.Errorf("Dist is not set for %s", c.Name)
 		}
 
-		if strings.HasSuffix(p.Dist, ".js") {
-			c.DistFile = filepath.Base(p.Dist)
-			p.Dist = filepath.Dir(p.Dist)
+		if strings.HasSuffix(task.Dist, ".js") {
+			c.DistFile = filepath.Base(task.Dist)
+			task.Dist = filepath.Dir(task.Dist)
 		}
 
-		c.Dist = filepath.Join(Conf.WorkingDir, p.Dist)
-		c.JSBundle = p.Bundle
+		c.Dist = filepath.Join(Conf.WorkingDir, task.Dist)
+		c.JSBundle = task.Bundle
 
 		if len(c.Src) > 0 {
-			Conf.Process = append(Conf.Process, c)
+			Conf.Tasks = append(Conf.Tasks, c)
 		}
 	}
 
-	for _, p := range yml.Copy {
-		c := ProcessStruct{}
+	for _, task := range yml.Copy {
+		c := TaskStruct{}
 		c.Type = "copy"
-		c.Name = p.Name
+		c.Name = task.Name
 		if c.Name == "" {
 			c.Name = c.Type
 		}
 
-		c.Src = p.Src
+		c.Src = task.Src
 
-		if p.Dist == "" {
+		if task.Dist == "" {
 			return fmt.Errorf("Dist is not set for %s", c.Name)
 		}
 
-		c.Dist = filepath.Join(Conf.WorkingDir, p.Dist)
+		c.Dist = filepath.Join(Conf.WorkingDir, task.Dist)
 
-		c.OptimiseImages = p.OptimiseImages
+		c.OptimiseImages = task.OptimiseImages
 
-		c.SVGPrecision = p.SVGPrecision
-		if c.SVGPrecision < 1 || p.SVGPrecision > 25 {
+		c.SVGPrecision = task.SVGPrecision
+		if c.SVGPrecision < 1 || task.SVGPrecision > 25 {
 			c.SVGPrecision = 5
 		}
 
 		if len(c.Src) > 0 {
-			Conf.Process = append(Conf.Process, c)
+			Conf.Tasks = append(Conf.Tasks, c)
 		}
 	}
 
-	if len(Conf.Process) == 0 {
-		return fmt.Errorf("No processes defined")
+	if len(Conf.Tasks) == 0 {
+		return fmt.Errorf("No tasks defined")
 	}
 
 	initOptimiserConfig()
@@ -144,13 +144,12 @@ func ParseConfig() error {
 }
 
 // Files returns all files matching the glob pattern
-// should maybe use https://github.com/goreleaser/fileglob
-func (p ProcessStruct) Files() []FileMap {
+func (t TaskStruct) Files() []FileMap {
 
 	fm := []FileMap{}
 	exists := map[string]bool{}
 
-	for _, pth := range p.Src {
+	for _, pth := range t.Src {
 		fullpth := filepath.ToSlash(filepath.Join(Conf.WorkingDir, pth))
 		Log().Debugf("finding files in %s", rel(fullpth))
 		matches, err := fg.Glob(fullpth, fg.MaybeRootFS)

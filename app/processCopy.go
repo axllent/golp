@@ -10,10 +10,10 @@ import (
 
 // ProcessCopy will copy files from the source directory to the destination directory.
 // If fileName is specified, just a single file will be copied.
-func (p ProcessStruct) processCopy(fileName string) error {
+func (task TaskStruct) processCopy(fileName string) error {
 	sw := utils.StartTimer()
 
-	files := p.Files()
+	files := task.Files()
 
 	for _, f := range files {
 		if fileName != "" && f.InFile != fileName {
@@ -22,7 +22,7 @@ func (p ProcessStruct) processCopy(fileName string) error {
 		}
 
 		filename := filepath.Base(f.InFile)
-		d := path.Join(p.Dist, f.OutPath)
+		d := path.Join(task.Dist, f.OutPath)
 		if !utils.IsDir(d) {
 			/* #nosec G301 */
 			if err := os.MkdirAll(d, 0755); err != nil {
@@ -35,7 +35,7 @@ func (p ProcessStruct) processCopy(fileName string) error {
 			return err
 		}
 
-		optimiseIfImage(p, out)
+		optimiseIfImage(task, out)
 
 		srcStat, err := os.Stat(f.InFile)
 		if err == nil {
@@ -52,9 +52,9 @@ func (p ProcessStruct) processCopy(fileName string) error {
 	}
 
 	if fileName != "" {
-		Log().Infof("'%s' updated in %v", p.Name, sw.Elapsed())
+		Log().Infof("'%s' updated in %v", task.Name, sw.Elapsed())
 	} else {
-		Log().Infof("'%s' copied in %v", p.Name, sw.Elapsed())
+		Log().Infof("'%s' copied in %v", task.Name, sw.Elapsed())
 	}
 
 	return nil

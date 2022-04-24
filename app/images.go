@@ -47,7 +47,7 @@ func which(bin string) string {
 
 // OptimiseImage will optimise an image if it matches a specific
 // extension
-func optimiseIfImage(p ProcessStruct, imgPath string) {
+func optimiseIfImage(p TaskStruct, imgPath string) {
 	if !p.OptimiseImages {
 		return
 	}
@@ -106,7 +106,7 @@ func isGIFAnimated(gifFile string) error {
 	return fmt.Errorf("Animated gif")
 }
 
-func optimiseSVG(p ProcessStruct, imgPath string) {
+func optimiseSVG(p TaskStruct, imgPath string) {
 	min := minify.New()
 	m := svg.Minifier{Precision: p.SVGPrecision}
 

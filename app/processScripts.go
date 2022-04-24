@@ -10,25 +10,25 @@ import (
 	"github.com/evanw/esbuild/pkg/api"
 )
 
-func (p ProcessStruct) processScripts() error {
+func (task TaskStruct) processScripts() error {
 	sw := utils.StartTimer()
 
-	files := p.Files()
+	files := task.Files()
 
-	if p.DistFile != "" {
+	if task.DistFile != "" {
 		imports := []string{}
 		for _, f := range files {
 			imports = append(imports, f.InFile)
 		}
 
-		if !utils.IsDir(p.Dist) {
+		if !utils.IsDir(task.Dist) {
 			/* #nosec G301 */
-			if err := os.MkdirAll(p.Dist, 0755); err != nil {
+			if err := os.MkdirAll(task.Dist, 0755); err != nil {
 				return err
 			}
 		}
 
-		out := path.Join(p.Dist, p.DistFile)
+		out := path.Join(task.Dist, task.DistFile)
 
 		options := api.BuildOptions{
 			Stdin: &api.StdinOptions{
@@ -42,7 +42,7 @@ func (p ProcessStruct) processScripts() error {
 			SourcesContent: api.SourcesContentExclude,
 		}
 
-		if p.JSBundle {
+		if task.JSBundle {
 			options.Bundle = true
 		}
 
@@ -67,13 +67,13 @@ func (p ProcessStruct) processScripts() error {
 		}
 
 		Log().Debugf("compiled %d JS files to %s", len(files), rel(out))
-		Log().Infof("'%s' compiled in %v", p.Name, sw.Elapsed())
+		Log().Infof("'%s' compiled in %v", task.Name, sw.Elapsed())
 		return nil
 	}
 
 	for _, f := range files {
 		filename := filepath.Base(f.InFile)
-		d := path.Join(p.Dist, f.OutPath)
+		d := path.Join(task.Dist, f.OutPath)
 		if !utils.IsDir(d) {
 			/* #nosec G301 */
 			if err := os.MkdirAll(d, 0755); err != nil {
@@ -90,7 +90,7 @@ func (p ProcessStruct) processScripts() error {
 			SourcesContent: api.SourcesContentExclude,
 		}
 
-		if p.JSBundle {
+		if task.JSBundle {
 			options.Bundle = true
 		}
 
@@ -117,7 +117,7 @@ func (p ProcessStruct) processScripts() error {
 		Log().Debugf("compiled %s to %s", rel(f.InFile), rel(out))
 	}
 
-	Log().Infof("'%s' compiled in %v", p.Name, sw.Elapsed())
+	Log().Infof("'%s' compiled in %v", task.Name, sw.Elapsed())
 
 	return nil
 }

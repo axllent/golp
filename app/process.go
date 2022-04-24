@@ -5,18 +5,18 @@ import (
 	"strings"
 )
 
-// Process will process the ProcessStruct
-func (p ProcessStruct) Process(fileName string) error {
-	switch p.Type {
+// Process the TaskStruct
+func (task TaskStruct) Process(fileName string) error {
+	switch task.Type {
 	case "styles":
-		return p.processStyles()
+		return task.processStyles()
 	case "scripts":
-		return p.processScripts()
+		return task.processScripts()
 	case "copy":
-		return p.processCopy(fileName)
+		return task.processCopy(fileName)
 	}
 
-	return fmt.Errorf("Unknown process type: %s", p.Type)
+	return fmt.Errorf("Unknown process type: %s", task.Type)
 }
 
 // Return the relative file path
