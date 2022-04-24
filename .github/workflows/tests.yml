@@ -41,12 +41,12 @@ jobs:
   # updated. Github does not allow cache sharing between branches, except from the default branch.  
   # Ensure the same keys are used as the release-build, and that it uses the exact same build options.
   linux-cache:
+    name: linux-cache
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         go-version: ["1.18"]
         arch: ["386", amd64, arm64]
-    name: linux
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.1.0
       - name: Set src directory
