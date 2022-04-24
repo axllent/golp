@@ -56,7 +56,7 @@ jobs:
         id: cache
         with:
           path: |
-            ${{ steps.pwd.outputs.srcdir }}/.cache
+            ${{ steps.pwd.outputs.srcdir }}/.go
           key: linux_${{ matrix.arch }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             linux_${{ matrix.arch }}-go-
@@ -67,5 +67,5 @@ jobs:
         run: |
           docker run --rm -v ${{ steps.pwd.outputs.srcdir }}:/src -w /src --entrypoint /bin/sh --platform linux/${{ matrix.arch }} golang:${{ matrix.go-version }}-alpine -c \
           "apk add --no-cache gcc g++ && \
-          GOPATH="/src/.cache" go build -buildvcs=false -ldflags '-s -w -extldflags -static' \
-          && find /src/.cache -name *.zip -exec chmod 664 {} \;"
+          GOPATH="/src/.go/go" GOCACHE="/src/.go/cache" go build -buildvcs=false -ldflags '-s -w -extldflags -static' \
+          && find /src/.go -name *.zip -exec chmod 664 {} \;"
