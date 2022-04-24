@@ -1,0 +1,102 @@
+# Hacky, but necessary to update the cache on the default branch (develop) if/when '**/go.sum' is
+# updated. Github does not allow cache sharing between branches, except from the default branch.
+# Ensure the same keys are used as the release-build, and that it uses the exact same build options.
+name: Update go cache
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  linux-cache:
+    name: Linux cache
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ["1.18"]
+        arch: ["386", amd64, arm64]
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - name: Set src directory
+        id: pwd
+        run: echo "::set-output name=srcdir::$(pwd)"
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: |
+            ${{ steps.pwd.outputs.srcdir }}/.go
+          key: linux_${{ matrix.arch }}-go-${{ hashFiles('**/go.sum') }}
+      - uses: docker/setup-qemu-action@v1
+      - name: Rebuild in qemu if required
+        if: |
+          steps.cache.outputs.cache-hit != 'true'
+        run: |
+          docker run --rm -v ${{ steps.pwd.outputs.srcdir }}:/src -w /src --entrypoint /bin/sh --platform linux/${{ matrix.arch }} golang:${{ matrix.go-version }}-alpine -c \
+          "apk add --no-cache gcc g++ && \
+          GOPATH="/src/.go/go" GOCACHE="/src/.go/cache" go build -buildvcs=false -ldflags '-s -w -extldflags -static' \
+          && find /src/.go -name *.zip -exec chmod 664 {} \;"
+
+  darwin-cache:
+    name: Darwin cache
+    strategy:
+      matrix:
+        go-version: [1.18.x]
+        os: [macos-latest]
+        goarch: [amd64, arm64]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/setup-go@v3
+      with:
+        go-version: ${{ matrix.go-version }}
+    - uses: actions/checkout@v3
+    - uses: actions/cache@v3
+      id: cache
+      with:
+        path: |
+          ~/Library/Caches/go-build
+          ~/go
+        key: darwin_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
+    - name: Rebuild if required
+      if: |
+        steps.cache.outputs.cache-hit != 'true'
+      run: go build -trimpath -ldflags '-s -w'
+      env:
+        CGO_ENABLED: 1
+    - name: Compress and check size if rebuilt
+      if: |
+        steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        tar -zcvf golp_darwin_${{ matrix.goarch }}.tar.gz golp README.md LICENSE
+        SIZE=$(stat -f%z golp_darwin_${{ matrix.goarch }}.tar.gz)
+        if (( $SIZE < 3500000)) ; then
+          echo "File is too small ($SIZE), build failed!"
+          exit 1
+        fi
+
+  windows:
+    name: Windows cache
+    strategy:
+      matrix:
+        go-version: [1.18.x]
+        os: [windows-latest]
+        goarch: ["386", amd64]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/setup-go@v3
+      with:
+        go-version: ${{ matrix.go-version }}
+    - uses: actions/checkout@v3
+    - uses: actions/cache@v3
+      id: cache
+      with:
+        path: |
+          ~\AppData\Local\go-build
+          ~\go
+        key: windows_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
+    - name: Rebuild if required
+      if: |
+        steps.cache.outputs.cache-hit != 'true'
+      run: go build -ldflags '-s -w -extldflags "-static"'
+      env:
+        CGO_ENABLED: 1
+  
