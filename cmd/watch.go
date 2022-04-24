@@ -13,12 +13,12 @@ var watchCmd = &cobra.Command{
 	Short: "Build & watch src directories for changes",
 	Long: `Build and watch your src directories for changes.
 	
-This will monitor your src directories for changes and instantly rebuild their
-assets when a change is detected.`,
+This will monitor your src directories for changes and instantly rebuild
+their assets when a change is detected.`,
 	Args: cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		if app.QuietLogging && app.VerboseLogging {
-			app.Log().Error("--quiet and --verbose are mutualfly exclusive\n\n")
+			app.Log().Error("you cannot use --quiet and --verbose together\n\n")
 			_ = cmd.Help()
 			os.Exit(1)
 		}

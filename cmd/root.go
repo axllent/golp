@@ -17,8 +17,8 @@ var rootCmd = &cobra.Command{
 	Long: `Golp automates build workflows, compiling SASS and JavaScript into configurable
 "dist" directories. It also handles dynamic copying of static assets.
 
-Documentation:
-  https://github.com/axllent/golp`,
+Docs: https://github.com/axllent/golp
+Wiki: https://github.com/axllent/golp/wiki`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },

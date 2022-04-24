@@ -10,14 +10,15 @@ import (
 var configCmd = &cobra.Command{
 	Use:   "config",
 	Short: "View an example config file",
-	Long: `View an example config file.
-	
-This file is typically saved in your project root directory as golp.yaml
+	Long: `The default Golp config file is located in your working directory 
+(typically your project root directory) as 'golp.yaml'
 
-All styles, scripts, and assets are relative to this file.`,
+All styles, scripts, and assets are relative to this file. Please refer
+to the wiki for more information: https://github.com/axllent/golp/wiki`,
 	Args: cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(`# Optionally specify directories and/or files to automatically delete on every build / clean
+		fmt.Println(`# Documentation: https://github.com/axllent/golp/wiki
+# Optionally specify directories and/or files to automatically delete on every build / clean
 clean: 
   - themes/site/dist
 
