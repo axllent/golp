@@ -13,7 +13,7 @@ Notable changes to golp will be documented in this file.
 {{ range .Commits -}}
 - {{ if .Scope }}**{{ .Scope }}:** {{ end }}{{ .Subject }}
 {{ end }}
-{{ end -}}
+{{ end }}
 {{ end -}}
 {{ end -}}
 {{ end -}}
