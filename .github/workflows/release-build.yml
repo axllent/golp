@@ -4,33 +4,10 @@ on:
       - '*'
 name: Build & release
 jobs:
-  changelog:
-    name: Generate release changelog
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2.1.0
-        with:
-          fetch-depth: 0
-      - run: git tag
-      - name: Get tag
-        id: tag
-        uses: dawidd6/action-get-tag@v1
-      - uses: craicoverflow/install-git-chglog@v1
-      - name: Create release changelog
-        run: git-chglog -t .chglog/RELEASE.tpl.md -o release-changelog.md ${{ steps.tag.outputs.tag }}
-      - run: |
-          git-chglog
-          git tag
-      - name: Upload release changelog
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-changelog
-          path: release-changelog.md
 
   # using qemu & go:alpine seems to work properly for cross platform static builds
   linux-builds:
     name: linux
-    needs: changelog
     strategy:
       matrix:
         go-version: ["1.18"]
@@ -63,16 +40,12 @@ jobs:
       - name: Create archive
         run: |
           tar -zcvf golp_linux_${{ matrix.arch }}.tar.gz golp README.md LICENSE
-      - name: Download release changelog
-        uses: actions/download-artifact@v3
-        with:
-          name: release-changelog
       - name: Read release changelog
         uses: edwardgeorge/file-outputs-action@main
         id: changelog
         with:
           files: |
-            content=release-changelog.md
+            content=.chglog/release-info.md
       - name: Upload archive to release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -85,7 +58,6 @@ jobs:
 
   darwin:
     name: darwin
-    needs: changelog
     strategy:
       matrix:
         go-version: [1.18.x]
@@ -121,16 +93,12 @@ jobs:
           echo "File is too small ($SIZE), build failed!"
           exit 1
         fi
-    - name: Download release changelog
-      uses: actions/download-artifact@v3
-      with:
-        name: release-changelog
     - name: Read release changelog
       uses: edwardgeorge/file-outputs-action@main
       id: changelog
       with:
         files: |
-          content=release-changelog.md
+          content=.chglog/release-info.md
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
@@ -143,7 +111,6 @@ jobs:
 
   windows:
     name: windows
-    needs: changelog
     strategy:
       matrix:
         go-version: [1.18.x]
@@ -174,16 +141,12 @@ jobs:
       with:
         files: golp.exe README.md LICENSE
         dest: golp_windows_${{ matrix.goarch }}.zip
-    - name: Download release changelog
-      uses: actions/download-artifact@v3
-      with:
-        name: release-changelog
     - name: Read release changelog
       uses: edwardgeorge/file-outputs-action@main
       id: changelog
       with:
         files: |
-          content=release-changelog.md
+          content=.chglog/release-info.md
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
