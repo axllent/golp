@@ -161,7 +161,15 @@ func GithubUpdate(repo, appName, currentVersion string) (string, error) {
 		}
 	}
 
-	// ensure the new binary is executable - more for Mac incompatibilities
+	if runtime.GOOS != "windows" {
+		/* #nosec G302 */
+		if err := os.Chmod(newExec, 0755); err != nil {
+			return "", err
+		}
+	}
+
+	// ensure the new binary is executable (mainly for inconsistent darwin builds)
+	/* #nosec G204 */
 	cmd := exec.Command(newExec)
 	if err := cmd.Run(); err != nil {
 		return "", err
