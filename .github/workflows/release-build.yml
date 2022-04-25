@@ -15,6 +15,7 @@ jobs:
       - uses: Bpazy/setup-git-chglog@v1
       - name: Create release changelog
         run: git-chglog -t .chglog/RELEASE.tpl.md -o release-changelog.md ${{ steps.tag.outputs.tag }}
+      - run: cat release-changelog.md
       - name: Upload release changelog
         uses: actions/upload-artifact@v3
         with:
