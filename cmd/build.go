@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/axllent/golp/app"
@@ -20,8 +21,7 @@ to debug your code. Run with '-m' to disable SourceMaps and minify the output.`,
 	Aliases: []string{"package"},
 	Run: func(cmd *cobra.Command, args []string) {
 		if app.QuietLogging && app.VerboseLogging {
-			app.Log().Error("--quiet and --verbose are mutualfly exclusive\n\n")
-			_ = cmd.Help()
+			fmt.Println("Error: cannot use --quiet and --verbose together")
 			os.Exit(1)
 		}
 
@@ -55,4 +55,7 @@ to debug your code. Run with '-m' to disable SourceMaps and minify the output.`,
 func init() {
 	rootCmd.AddCommand(buildCmd)
 	buildCmd.Flags().BoolVarP(&app.Minify, "minify", "m", false, "minify dist styles & scripts")
+	buildCmd.Flags().StringVarP(&app.Conf.ConfigFile, "config", "c", "./golp.yaml", "config file")
+	buildCmd.Flags().BoolVarP(&app.VerboseLogging, "verbose", "v", false, "verbose output")
+	buildCmd.Flags().BoolVarP(&app.QuietLogging, "quiet", "q", false, "no output except for errors")
 }

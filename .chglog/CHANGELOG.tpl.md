@@ -1,3 +1,8 @@
+# Changelog
+
+Notable changes to golp will be documented in this file.
+
+
 {{ if .Versions -}}
 {{ if .Unreleased.CommitGroups -}}
 ## [Unreleased]
@@ -8,14 +13,14 @@
 {{ range .Commits -}}
 - {{ if .Scope }}**{{ .Scope }}:** {{ end }}{{ .Subject }}
 {{ end }}
-{{ end -}}
+{{ end }}
 {{ end -}}
 {{ end -}}
 {{ end -}}
 
 {{ range .Versions }} 
 {{- if .CommitGroups -}}
-## {{ .Tag.Name }} - {{ datetime "2006-01-02" .Tag.Date }}
+## {{ .Tag.Name }}
 
 {{ range .CommitGroups -}}
 ### {{ .Title }}

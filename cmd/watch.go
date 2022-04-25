@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/axllent/golp/app"
@@ -18,8 +19,7 @@ their assets when a change is detected.`,
 	Args: cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		if app.QuietLogging && app.VerboseLogging {
-			app.Log().Error("you cannot use --quiet and --verbose together\n\n")
-			_ = cmd.Help()
+			fmt.Println("Error: cannot use --quiet and --verbose together")
 			os.Exit(1)
 		}
 
@@ -36,4 +36,7 @@ func init() {
 	rootCmd.AddCommand(watchCmd)
 
 	watchCmd.Flags().BoolVarP(&app.Minify, "minify", "m", false, "minify dist styles & scripts")
+	watchCmd.Flags().StringVarP(&app.Conf.ConfigFile, "config", "c", "./golp.yaml", "config file")
+	watchCmd.Flags().BoolVarP(&app.VerboseLogging, "verbose", "v", false, "verbose output")
+	watchCmd.Flags().BoolVarP(&app.QuietLogging, "quiet", "q", false, "no output except for errors")
 }

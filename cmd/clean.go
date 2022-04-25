@@ -28,4 +28,7 @@ var cleanCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(cleanCmd)
+
+	cleanCmd.Flags().StringVarP(&app.Conf.ConfigFile, "config", "c", "./golp.yaml", "config file")
+	cleanCmd.Flags().BoolVarP(&app.VerboseLogging, "verbose", "v", false, "verbose output")
 }
