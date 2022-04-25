@@ -3,6 +3,12 @@
 Notable changes to golp will be documented in this file.
 
 
+## 0.1.30
+
+### Chore
+- Apply only relevant args to functions
+
+
 ## 0.1.29
 
 ### Feature
