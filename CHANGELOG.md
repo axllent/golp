@@ -1,3 +1,12 @@
+## 0.1.29 - 2022-04-25
+
+### Feature
+- Binary check on update command
+
+### Fix
+- Ensure extracted binary is executable (linux/darwin)
+
+
 ## 0.1.27 - 2022-04-24
 
 ### Docs

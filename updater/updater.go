@@ -9,9 +9,11 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 
+	"github.com/axllent/golp/app"
 	"github.com/axllent/semver"
 )
 
@@ -159,6 +161,20 @@ func GithubUpdate(repo, appName, currentVersion string) (string, error) {
 		}
 	}
 
+	if runtime.GOOS != "windows" {
+		/* #nosec G302 */
+		if err := os.Chmod(newExec, 0755); err != nil {
+			return "", err
+		}
+	}
+
+	// ensure the new binary is executable (mainly for inconsistent darwin builds)
+	/* #nosec G204 */
+	cmd := exec.Command(newExec)
+	if err := cmd.Run(); err != nil {
+		return "", err
+	}
+
 	// get the running binary
 	oldExec, err := os.Executable()
 	if err != nil {
@@ -189,7 +205,7 @@ func downloadToFile(url, fileName string) error {
 
 	defer func() {
 		if err := out.Close(); err != nil {
-			fmt.Printf("Error closing file: %s\n", err)
+			app.Log().Errorf("Error closing file: %s\n", err)
 		}
 	}()
 
@@ -291,7 +307,7 @@ func getTempDir() string {
 	}
 	if err := mkDirIfNotExists(tempDir); err != nil {
 		// need a better way to exit
-		fmt.Printf("Error: %v", err)
+		app.Log().Errorf("Error: %v", err)
 		os.Exit(2)
 	}
 
