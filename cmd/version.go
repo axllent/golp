@@ -41,9 +41,17 @@ To view module versions, use the --modules flag.`,
 
 			fmt.Printf("%s %s is compiled with the following:\n\n", os.Args[0], Version)
 
+			displayMap := map[string]bool{
+				"github.com/bep/golibsass":       true,
+				"github.com/evanw/esbuild":       true,
+				"github.com/goreleaser/fileglob": true,
+				"github.com/tdewolff/minify/v2":  true,
+				"github.com/radovskyb/watcher":   true,
+			}
+
 			for _, dep := range bi.Deps {
-				if dep.Path == "github.com/bep/golibsass" || dep.Path == "github.com/evanw/esbuild" || dep.Path == "github.com/goreleaser/fileglob" {
-					fmt.Printf("%-30s %s\n", dep.Path, dep.Version)
+				if _, ok := displayMap[dep.Path]; ok {
+					fmt.Printf("%-32s %s\n", dep.Path, dep.Version)
 				}
 			}
 
