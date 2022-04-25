@@ -12,7 +12,7 @@ jobs:
       - name: Get tag
         id: tag
         uses: dawidd6/action-get-tag@v1
-      - uses: actions/setup-git-chglog@v1
+      - uses: Bpazy/setup-git-chglog@v1
       - name: Create release changelog
         run: git-chglog -t .chglog/RELEASE.tpl.md -o release-changelog.md ${{ steps.tag.outputs.tag }}
       - name: Upload release changelog
