@@ -169,9 +169,9 @@ jobs:
         files: golp.exe README.md LICENSE
         dest: golp_windows_${{ matrix.goarch }}.zip
     - name: Download release changelog
-        uses: actions/download-artifact@v3
-        with:
-          name: release-changelog
+      uses: actions/download-artifact@v3
+      with:
+        name: release-changelog
     - name: Read release changelog
       uses: edwardgeorge/file-outputs-action@main
       id: changelog
