@@ -1,4 +1,9 @@
-## 0.1.29 - 2022-04-25
+# Changelog
+
+Notable changes to golp will be documented in this file.
+
+
+## 0.1.29
 
 ### Feature
 - Binary check on update command
@@ -7,13 +12,13 @@
 - Ensure extracted binary is executable (linux/darwin)
 
 
-## 0.1.27 - 2022-04-24
+## 0.1.27
 
 ### Docs
 - Update cli documentation
 
 
-## 0.1.25 - 2022-04-23
+## 0.1.25
 
 ### Feature
 - Copy while watching will only process modified files
@@ -22,13 +27,13 @@
 - gifsicle optimisation
 
 
-## 0.1.24 - 2022-04-23
+## 0.1.24
 
 ### Feature
 - Optional SVG optimisation on copy
 
 
-## 0.1.23 - 2022-04-23
+## 0.1.23
 
 ### Debug
 - Use relative paths in debug output
@@ -42,19 +47,19 @@
 - Fix subdirectory patterns in recursive copy
 
 
-## 0.1.22 - 2022-04-21
+## 0.1.22
 
 ### Fix
 - Close file handle after copying contents
 
 
-## 0.1.21 - 2022-04-20
+## 0.1.21
 
 ### Feature
 - Add tests and test data
 
 
-## 0.1.20 - 2022-04-18
+## 0.1.20
 
 ### Feature
 - Display compiled module versions
@@ -63,26 +68,26 @@
 - Update modules
 
 
-## 0.1.19 - 2022-04-18
+## 0.1.19
 
 ### Config
 - Dist file/folder deletion based on config file only
 
 
-## 0.1.17 - 2022-04-17
+## 0.1.17
 
 ### Feature
 - Add `golp package` alias to imply build minification
 - Add changelog to release info
 
 
-## 0.1.16 - 2022-04-17
+## 0.1.16
 
 ### Feature
 - Add CHANGELOG
 
 
-## 0.1.15 - 2022-04-17
+## 0.1.15
 
 ### Chore
 - Version info to include build platform / arch
@@ -96,19 +101,19 @@
 - Escape glob paths for Windows paths
 
 
-## 0.1.12 - 2022-04-16
+## 0.1.12
 
 ### Fix
 - Windows paths
 
 
-## 0.1.10 - 2022-04-16
+## 0.1.10
 
 ### Fix
 - **windows:** Escape glob paths
 
 
-## 0.1.9 - 2022-04-15
+## 0.1.9
 
 ### Fix
 - don't rebuild Windows binaries
