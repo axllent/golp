@@ -4,13 +4,26 @@ on:
       - '*'
 name: Build & release
 jobs:
-  # building these in alpine seems to be far more reliable for cross platform
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - name: Get tag
+        id: tag
+        uses: dawidd6/action-get-tag@v1
+      - uses: actions/setup-git-chglog@v1
+      - name: git-chglog
+        id: chglog
+        run: echo "::set-output name=changelog::$(git-chglog -t .chglog/RELEASE.tpl.md ${{ steps.tag.outputs.tag }})"
+
+  # using qemu & go:alpine seems to work properly for cross platform static builds
   linux-builds:
+    name: linux
+    needs: changelog
     strategy:
       matrix:
         go-version: ["1.18"]
         arch: ["386", amd64, arm64]
-    name: linux
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.1.0
@@ -47,9 +60,11 @@ jobs:
           asset_name: golp_linux_${{ matrix.arch }}.tar.gz
           overwrite: true
           tag: ${{ github.ref }}
-          body: See [CHANGELOG](https://github.com/axllent/golp/blob/develop/CHANGELOG.md)
+          body: ${{ jobs.changelog.steps.chglog.outputs.changelog }}
 
   darwin:
+    name: darwin
+    needs: changelog
     strategy:
       matrix:
         go-version: [1.18.x]
@@ -72,7 +87,7 @@ jobs:
         key: darwin_${{ matrix.goarch }}-go-${{ hashFiles('**/go.sum') }}
         restore-keys: |
           darwin_${{ matrix.goarch }}-go-
-    - run: go build -trimpath -ldflags '-s -w -X "github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}"'
+    - run: go build -trimpath -ldflags '-s -w -X github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}'
       env:
         CGO_ENABLED: 1
     - run: ./golp version
@@ -93,8 +108,11 @@ jobs:
         asset_name: golp_darwin_${{ matrix.goarch }}.tar.gz
         overwrite: true
         tag: ${{ github.ref }}
+        body: ${{ jobs.changelog.steps.chglog.outputs.changelog }}
 
   windows:
+    name: windows
+    needs: changelog
     strategy:
       matrix:
         go-version: [1.18.x]
@@ -117,7 +135,7 @@ jobs:
     - name: Get tag
       id: tag
       uses: dawidd6/action-get-tag@v1
-    - run: go build -ldflags '-s -w -extldflags "-static" -X "github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}"'
+    - run: go build -ldflags '-s -w -extldflags -static -X github.com/axllent/golp/cmd.Version=${{ steps.tag.outputs.tag }}'
       env:
         CGO_ENABLED: 1
     - name: Compress zip files
@@ -133,3 +151,4 @@ jobs:
         asset_name: golp_windows_${{ matrix.goarch }}.zip
         overwrite: true
         tag: ${{ github.ref }}
+        body: ${{ jobs.changelog.steps.chglog.outputs.changelog }}
