@@ -116,9 +116,9 @@ jobs:
           exit 1
         fi
     - name: Download release changelog
-        uses: actions/download-artifact@v3
-        with:
-          name: release-changelog
+      uses: actions/download-artifact@v3
+      with:
+        name: release-changelog
     - name: Read release changelog
       uses: edwardgeorge/file-outputs-action@main
       id: changelog
