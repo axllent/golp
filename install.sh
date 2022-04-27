@@ -81,8 +81,19 @@ curl --silent --location --max-time "${TIMEOUT}" "${LINK}" | tar zxf - || {
 echo "Installing"
 mkdir -p /usr/local/bin || exit 2
 cp golp /usr/local/bin/ || exit 2
-chown root:root /usr/local/bin/golp || exit 2
 chmod 755 /usr/local/bin/golp || exit 2
+case "$OS" in
+'linux')
+  chown root:root /usr/local/bin/golp || exit 2
+  ;;
+'freebsd' | 'openbsd' | 'netbsd' | 'darwin')
+  chown root:wheel /usr/local/bin/golp || exit 2
+  ;;
+*)
+  echo 'OS not supported'
+  exit 2
+  ;;
+esac
 
 rm -rf "$tmp_dir"
 echo "Installed successfully to /usr/local/bin/golp"

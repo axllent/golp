@@ -68,9 +68,9 @@ This will process your files, outputting them to their respective dist directori
 
 ## Installation
 
-Linux & Mac users can install it directly with:
+Linux & Mac users can install it directly to `/usr/local/bin/golp` with:
 ```
-curl -sL https://raw.githubusercontent.com/axllent/golp/develop/install.sh | sudo bash -
+sudo bash < <(curl -sL https://raw.githubusercontent.com/axllent/golp/develop/install.sh)
 ```
 
 There are pre-built binaries available for Linux, Windows and MacOS available in the [releases](https://github.com/axllent/golp/releases/latest).
