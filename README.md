@@ -1,12 +1,10 @@
-# Golp
+# Golp - automate build workflows
 
-**This app is very much in beta at the moment!**
+Golp automates your website build workflows, compiling SASS and JavaScript into configurable "dist" directories, and copying of static assets with optional image optimisation.
 
-Golp automates build workflows, compiling SASS and JavaScript into configurable "dist" directories, and copying of static assets with optional image optimisation.
+Golp is not a Gulp drop-in replacement, but aims to provide an easy-to-use alternative for typical websites using SASS & JavaScript. It is fast, simple, and runs from a single binary.
 
-Golp is not a Gulp drop-in replacement, but aims to provide an easy-to-use build alternative for typical websites using SASS & JavaScript. It is fast, simple, and runs from a single binary.
-
-Internally it uses [esbuild](https://github.com/evanw/esbuild) for SASS/CSS, and [golibsass](https://github.com/bep/golibsass) for JavaScript compilation.
+Internally it uses [esbuild](https://github.com/evanw/esbuild) for SASS/CSS compilation, and [golibsass](https://github.com/bep/golibsass) for JavaScript compilation - both supporting SourceMaps or minification.
 
 
 ## Features
@@ -68,9 +66,17 @@ This will process your files, outputting them to their respective dist directori
 
 ## Installation
 
+
+Linux & Mac users can install it directly to `/usr/local/bin/golp` with:
+```
+sudo bash < <(curl -sL https://raw.githubusercontent.com/axllent/golp/develop/install.sh)
+```
+
 There are pre-built binaries available for Linux, Windows and MacOS available in the [releases](https://github.com/axllent/golp/releases/latest).
 
-You can also install it from source: `go install github.com/axllent/golp@latest` (go, gcc & g++ required)
+You can also install it from source: `go install github.com/axllent/golp@latest` (go, gcc & g++ required).
+
+See [Installation](https://github.com/axllent/golp/wiki/Installation) for more information.
 
 
 ## Configuration
@@ -81,10 +87,12 @@ Golp has four types of task types: `clean`, `styles`, `scripts` and `copy`. Plea
 
 Run `golp config` to view an example config file.
 
+See [Configuration](https://github.com/axllent/golp/wiki/Configuration) for more information.
+
 
 ### Example config file
 
-Please see the [wiki](https://github.com/axllent/golp/wiki) for a full list of configuration options.
+Golp is really easy to configure in your `golp.yaml` file. Please refer to the [wiki](https://github.com/axllent/golp/wiki/Configuration) for more explanation.
 
 ```yaml
 clean: 

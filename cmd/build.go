@@ -12,7 +12,7 @@ import (
 // buildCmd represents the build command
 var buildCmd = &cobra.Command{
 	Use:   "build",
-	Short: "Compile & copy your assets (single)",
+	Short: "Compile & copy your assets (single run)",
 	Long: `Compile & copy your assets in a single run.
 
 By default SASS & JS files will include SourceMaps, which are used by browsers
