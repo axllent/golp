@@ -15,7 +15,7 @@ var watchCmd = &cobra.Command{
 	Long: `Build and watch your src directories for changes.
 	
 This will monitor your src directories for changes and instantly rebuild
-their assets when a change is detected.`,
+their assets when a change is detected, useful for development.`,
 	Args: cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		if app.QuietLogging && app.VerboseLogging {
