@@ -1,3 +1,6 @@
-### Chore
-- Apply only relevant args to functions
+### Docs
+- Update documentation
+
+### Feature
+- Add installer script
 
