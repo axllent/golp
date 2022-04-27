@@ -68,6 +68,11 @@ This will process your files, outputting them to their respective dist directori
 
 ## Installation
 
+Linux & Mac users can install it directly with:
+```
+curl https://raw.githubusercontent.com/axllent/golp/develop/install.sh | sudo bash
+```
+
 There are pre-built binaries available for Linux, Windows and MacOS available in the [releases](https://github.com/axllent/golp/releases/latest).
 
 You can also install it from source: `go install github.com/axllent/golp@latest` (go, gcc & g++ required)
