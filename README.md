@@ -2,17 +2,18 @@
 
 Golp automates your website build workflows, compiling SASS and JavaScript into configurable "dist" directories, and copying of static assets with optional image optimisation.
 
-Golp is not a Gulp drop-in replacement, but aims to provide an easy-to-use alternative for typical websites using SASS & JavaScript. It is fast, simple, and runs from a single binary.
+Golp is an alternative to tools like Gulp and Webpack, providing an easy-to-use tool for typical websites requiring the compiling and/or bundling of SASS & JavaScript. It is fast, simple, and runs from a single binary.
 
-Internally it uses [esbuild](https://github.com/evanw/esbuild) for SASS/CSS compilation, and [golibsass](https://github.com/bep/golibsass) for JavaScript compilation - both supporting SourceMaps or minification.
+Internally it uses [esbuild](https://github.com/evanw/esbuild) for SASS/CSS compilation, and [golibsass](https://github.com/bep/golibsass) for JavaScript compilation - both supporting SourceMap generation or minification.
 
 
 ## Features
 
-- Single binary for all build tasks with simple yaml file configuration
-- Ability to "watch" configured files for changes (ie: building during development)
-- SourceMaps for debugging SASS & JS (disabled with minification)
-- Process/compile SASS & CSS ([golibsass](https://github.com/bep/golibsass)), and JavaScript ([esbuild](https://github.com/evanw/esbuild))
+- A single binary for all build tasks with simple yaml configuration file
+- Ability to "watch" configured files for changes (ie: rebuilding during development)
+- Process/compile SASS / CSS and JavaScript
+- SourceMap generation for debugging SASS & JS (disabled with minification)
+- Minification of SCSS & JavaScript for production builds
 - Copy static assets, including optional image optimisation (jpg, png, gif, svg)
 
 

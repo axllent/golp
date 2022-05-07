@@ -32,7 +32,8 @@ func WatchSrcDirs() {
 		mapPaths := make(map[string]bool)
 
 		for _, src := range task.Src {
-			dir := filepath.Dir(src)
+			fullpth := filepath.ToSlash(filepath.Join(Conf.WorkingDir, src))
+			dir := filepath.Dir(fullpth)
 
 			mapPaths[dir] = true
 		}
