@@ -3,6 +3,12 @@
 Notable changes to golp will be documented in this file.
 
 
+## 0.1.32
+
+### Fix
+- Watch directories should be relative to golp.yaml
+
+
 ## 0.1.31
 
 ### Docs

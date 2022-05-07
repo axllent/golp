@@ -1,6 +1,3 @@
-### Docs
-- Update documentation
-
-### Feature
-- Add installer script
+### Fix
+- Watch directories should be relative to golp.yaml
 
