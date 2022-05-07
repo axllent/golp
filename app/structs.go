@@ -7,7 +7,8 @@ type TaskStruct struct {
 	Src            []string // source files
 	Dist           string   // dist directory
 	DistFile       string   // optional merge filename
-	JSBundle       bool     // optional bundle JS files (JS-only)
+	NoSourceMaps   bool     // optional no SourceMaps (SAS/JS)
+	JSBundle       bool     // optional bundle JS files (JS)
 	OptimiseImages bool     `yaml:"optimise_images"`
 	SVGPrecision   int      `yaml:"svg_precision"`
 }
@@ -16,15 +17,17 @@ type TaskStruct struct {
 type yamlConf struct {
 	Clean  []string `yaml:"clean"`
 	Styles []struct {
-		Name string   `yaml:"name"`
-		Src  []string `yaml:"src"`
-		Dist string   `yaml:"dist"`
+		Name         string   `yaml:"name"`
+		Src          []string `yaml:"src"`
+		Dist         string   `yaml:"dist"`
+		NoSourceMaps bool     `yaml:"no_sourcemaps"`
 	} `yaml:"styles"`
 	Scripts []struct {
-		Name   string   `yaml:"name"`
-		Src    []string `yaml:"src"`
-		Dist   string   `yaml:"dist"`
-		Bundle bool     `yaml:"bundle"`
+		Name         string   `yaml:"name"`
+		Src          []string `yaml:"src"`
+		Dist         string   `yaml:"dist"`
+		Bundle       bool     `yaml:"bundle"`
+		NoSourceMaps bool     `yaml:"no_sourcemaps"`
 	} `yaml:"scripts"`
 	Copy []struct {
 		Name           string   `yaml:"name"`

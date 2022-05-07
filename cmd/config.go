@@ -29,6 +29,7 @@ styles:
       - themes/site/src/sass/**.css
       - node_modules/@dashboardcode/bsmultiselect/dist/css/BsMultiSelect.css
     dist:  themes/site/dist/css
+    #no_sourcemaps: true
 
 # JavaScript files
 scripts:
@@ -42,14 +43,15 @@ scripts:
       - node_modules/vue/dist/vue.global.prod.js
       - themes/site/src/js/**.js
     dist: themes/site/dist/js
+    #no_sourcemaps: true
 
 # All other files
 copy:
   - src:
       - themes/site/src/images/**
     dist: themes/site/dist/images
-    optimise_images: true
-    svg_precision: 5
+    #optimise_images: true
+    #svg_precision: 5
 
   - src: 
       - themes/site/src/fonts/**

@@ -8,7 +8,7 @@ import (
 	"github.com/bep/golibsass/libsass"
 )
 
-func compileStyles(content, outFile, inFile string) error {
+func compileStyles(content, outFile, inFile string, NoSourceMaps bool) error {
 	wi, err := os.Create(filepath.Clean(outFile))
 	if err != nil {
 		return err
@@ -25,13 +25,11 @@ func compileStyles(content, outFile, inFile string) error {
 		options.OutputStyle = libsass.CompressedStyle
 	} else {
 		options.OutputStyle = libsass.ExpandedStyle
-		if extension != ".css" {
+		if extension != ".css" && !NoSourceMaps {
 			options.SourceMapOptions = libsass.SourceMapOptions{
 				EnableEmbedded: false,
-				// InputPath:      inFile,
-				OutputPath: outFile,
-				Filename:   outFile + ".map",
-				// Root: ".",
+				OutputPath:     outFile,
+				Filename:       outFile + ".map",
 			}
 		}
 	}
