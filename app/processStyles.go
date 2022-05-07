@@ -43,7 +43,7 @@ func (task TaskStruct) processStyles() error {
 
 		out := path.Join(task.Dist, task.DistFile)
 
-		if err := compileStyles(sassImport, out, ""); err != nil {
+		if err := compileStyles(sassImport, out, "", task.NoSourceMaps); err != nil {
 			return err
 		}
 
@@ -80,7 +80,7 @@ func (task TaskStruct) processStyles() error {
 				content = c
 			}
 
-			if err := compileStyles(string(content), out, f.InFile); err != nil {
+			if err := compileStyles(string(content), out, f.InFile, task.NoSourceMaps); err != nil {
 				return err
 			}
 

@@ -12,7 +12,7 @@ Internally it uses [esbuild](https://github.com/evanw/esbuild) for SASS/CSS comp
 - A single binary for all build tasks with simple yaml configuration file
 - Ability to "watch" configured files for changes (ie: rebuilding during development)
 - Process/compile SASS / CSS and JavaScript
-- SourceMap generation for debugging SASS & JS (disabled with minification)
+- SourceMap generation for debugging SASS & JS (disabled with minification, or `no_sourcemaps: true`)
 - Minification of SCSS & JavaScript for production builds
 - Copy static assets, including optional image optimisation (jpg, png, gif, svg)
 

@@ -50,7 +50,7 @@ func (task TaskStruct) processScripts() error {
 			options.MinifyWhitespace = true
 			options.MinifyIdentifiers = true
 			options.MinifySyntax = true
-		} else {
+		} else if !task.NoSourceMaps {
 			options.Sourcemap = api.SourceMapLinked
 		}
 
@@ -98,7 +98,7 @@ func (task TaskStruct) processScripts() error {
 			options.MinifyWhitespace = true
 			options.MinifyIdentifiers = true
 			options.MinifySyntax = true
-		} else {
+		} else if !task.NoSourceMaps {
 			options.Sourcemap = api.SourceMapLinked
 		}
 
