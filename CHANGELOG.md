@@ -3,6 +3,12 @@
 Notable changes to golp will be documented in this file.
 
 
+## 0.1.33
+
+### Feature
+- Add no_sourcemaps option for JS & SASS
+
+
 ## 0.1.32
 
 ### Fix
