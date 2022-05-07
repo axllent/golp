@@ -1,3 +1,3 @@
-### Fix
-- Watch directories should be relative to golp.yaml
+### Feature
+- Add no_sourcemaps option for JS & SASS
 
