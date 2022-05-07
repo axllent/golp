@@ -74,7 +74,6 @@ func ParseConfig() error {
 
 		c.Dist = filepath.Join(Conf.WorkingDir, task.Dist)
 		c.NoSourceMaps = task.NoSourceMaps
-		fmt.Println("NoSourceMaps:", c.NoSourceMaps)
 
 		if len(c.Src) > 0 {
 			Conf.Tasks = append(Conf.Tasks, c)
