@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/axllent/golp/app"
@@ -21,7 +20,7 @@ to debug your code. Run with '-m' to disable SourceMaps and minify the output.`,
 	Aliases: []string{"package"},
 	Run: func(cmd *cobra.Command, args []string) {
 		if app.QuietLogging && app.VerboseLogging {
-			fmt.Println("Error: cannot use --quiet and --verbose together")
+			app.Log().Error("Cannot use --quiet and --verbose together")
 			os.Exit(1)
 		}
 
