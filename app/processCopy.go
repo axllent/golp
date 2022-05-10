@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"os"
 	"path"
 	"path/filepath"
@@ -19,6 +20,10 @@ func (task TaskStruct) processCopy(fileName string) error {
 		if fileName != "" && f.InFile != fileName {
 			// not the same file, ignore
 			continue
+		}
+
+		if !utils.IsFile(f.InFile) {
+			return fmt.Errorf("'%s' not found", rel(f.InFile))
 		}
 
 		filename := filepath.Base(f.InFile)
