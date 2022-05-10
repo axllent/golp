@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/axllent/golp/app"
@@ -19,7 +18,7 @@ their assets when a change is detected, useful for development.`,
 	Args: cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		if app.QuietLogging && app.VerboseLogging {
-			fmt.Println("Error: cannot use --quiet and --verbose together")
+			app.Log().Error("Cannot use --quiet and --verbose together")
 			os.Exit(1)
 		}
 
