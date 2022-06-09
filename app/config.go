@@ -191,7 +191,7 @@ func (t TaskStruct) Files() []FileMap {
 				}
 			}
 		} else {
-			Log().Error(err)
+			Log().Errorf("'%s' not found", rel(fullpth))
 		}
 	}
 
